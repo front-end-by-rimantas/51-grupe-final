@@ -7,7 +7,6 @@
         "dev": "npm-run-all --parallel client:* server:*",
         "client:dev": "npm --prefix ./client/ run dev",
         "server:dev": "npm --prefix ./server/ run dev",
-        "server:ts": "npm --prefix ./server/ run ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
