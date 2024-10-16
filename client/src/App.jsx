@@ -6,18 +6,29 @@ import { TermsOfService } from "./pages/TermsOfService";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Feed } from "./pages/Feed";
+import { PublicLayout } from "./layout/PublicLayout";
+import { UserLayout } from "./layout/UserLayout";
+import { UserProfile } from "./pages/UserProfile";
 
 export function App() {
   return (
     <ContextWrapper>
       <BrowserRouter>
         <Routes>
-          <Route index path='/' element={<Home />}></Route>
-          <Route index path='/tos' element={<TermsOfService />}></Route>
-          <Route index path='/login' element={<Login />}></Route>
-          <Route index path='/register' element={<Register />}></Route>
+          <Route Component={PublicLayout}>
+            <Route index path='/' element={<Home />}></Route>
+            <Route path='/tos' element={<TermsOfService />}></Route>
+            <Route path='/login' element={<Login />}></Route>
+            <Route path='/register' element={<Register />}></Route>
+          </Route>
 
-          <Route index path='/feed' element={<Feed />}></Route>
+          <Route Component={UserLayout}>
+            <Route path='/feed' element={<Feed />}></Route>
+            <Route path='/profile' element={<UserProfile />}></Route>
+            {/* <Route path='/change-password' element={<UserProfile />}></Route> */}
+            {/* <Route path='/history' element={<UserProfile />}></Route> */}
+            {/* <Route path='/payments' element={<UserProfile />}></Route> */}
+          </Route>
 
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
