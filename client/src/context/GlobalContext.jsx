@@ -18,7 +18,7 @@ export function ContextWrapper(props) {
     useEffect(() => {
         // TODO: auth API -> login
         setIsLoggedIn(() => false);
-        setRole(() => 'admin');
+        setRole(() => 'public');
     }, []);
 
 
