@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.form textarea {
+  padding: 0.2em;
+  font-size: 1.6rem;
+  line-height: 1.3em;
+  min-height: 2em;
+  height: 2em;
+  max-height: 16.4em;
+}

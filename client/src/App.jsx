@@ -5,6 +5,7 @@ import { NotFound } from "./pages/NotFound";
 import { TermsOfService } from "./pages/TermsOfService";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
+import { Feed } from "./pages/Feed";
 
 export function App() {
   return (
@@ -15,6 +16,9 @@ export function App() {
           <Route index path='/tos' element={<TermsOfService />}></Route>
           <Route index path='/login' element={<Login />}></Route>
           <Route index path='/register' element={<Register />}></Route>
+
+          <Route index path='/feed' element={<Feed />}></Route>
+
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>

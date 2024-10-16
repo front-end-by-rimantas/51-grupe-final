@@ -17,6 +17,7 @@ export function Header() {
                     <MenuLink href='/' title='Pagrindinis' />
                     <MenuLink href='/faq' title='DUK' />
                     <MenuLink href='/about-us' title='Apie mus' />
+                    <MenuLink href='/feed' title='FEED' />
                 </ul>
 
                 <div className="col-md-4 text-end">

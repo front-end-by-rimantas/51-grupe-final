@@ -2,18 +2,12 @@
 
 ## FRONTEND
 
-### Public
-
--   home page + register/login forma
--   404 page
-
 #### Ateiciai / ant klaustuko
 
 -   profilis page
 -   about us
 -   legal:
     -   privacy
-    -   tos
     -   cookies
 -   help / faq
 -   pricing
@@ -46,3 +40,7 @@
 -   login API (post)
 -   logout API (get)
 -   zinutes CRUD API
+
+## LATER
+
+-   padaryti, jog "Create post" formoje, aukstis automatiskai adaptuotusi prie parasyto turinio kiekio
