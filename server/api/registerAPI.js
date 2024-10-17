@@ -12,9 +12,6 @@ export function registerPostAPI(req, res) {
         },
     ];
 
-    console.log(req.body);
-
-
     if (Object.keys(req.body).length !== requiredFields.length) {
         return res.json({
             status: 'error',
@@ -23,10 +20,9 @@ export function registerPostAPI(req, res) {
     }
 
     for (const { field, validation } of requiredFields) {
-        console.log(field);
-
         const value = req.body[field];
         const [isErr, errMessage] = validation(value);
+
         if (isErr) {
             return res.json({
                 status: 'error',
