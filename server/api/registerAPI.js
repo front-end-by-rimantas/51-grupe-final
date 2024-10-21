@@ -2,33 +2,16 @@ import { IsValid } from '../lib/IsValid.js';
 
 export function registerPostAPI(req, res) {
     const requiredFields = [
-        {
-            field: 'email',
-            validation: IsValid.email,
-        },
-        {
-            field: 'password',
-            validation: IsValid.password,
-        },
+        { field: 'email', validation: IsValid.email },
+        { field: 'password', validation: IsValid.password },
     ];
 
-    if (Object.keys(req.body).length !== requiredFields.length) {
+    const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
+    if (isErr) {
         return res.json({
             status: 'error',
-            msg: 'Registracijai reikalingi tik email ir password',
+            msg: errMessage,
         });
-    }
-
-    for (const { field, validation } of requiredFields) {
-        const value = req.body[field];
-        const [isErr, errMessage] = validation(value);
-
-        if (isErr) {
-            return res.json({
-                status: 'error',
-                msg: errMessage,
-            });
-        }
     }
 
     return res.json({

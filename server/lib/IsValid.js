@@ -1,8 +1,40 @@
 export class IsValid {
     /**
+     * 
+     * @param {Object} clientData Is kliento gautas isparsintas JSON objektas
+     * @param {Object[]} requiredFields Privalomu lauku validavimo taisykles
+     * @param {string} requiredFields[].field Privalomo lauko pavadinimas
+     * @param {Function} requiredFields[].validation Privalomo lauko reiksme validuojanti funkcija / statinis metodas
+     * @returns 
+     */
+    static requiredFields(clientData, requiredFields) {
+        if (typeof clientData !== 'object'
+            || Array.isArray(clientData)
+            || clientData === null
+        ) {
+            return [true, 'Reikalingas validus objektas'];
+        }
+
+        if (Object.keys(clientData).length !== requiredFields.length) {
+            const names = requiredFields.map(obj => obj.field).join(', ');
+            return [true, 'Reikalingi laukai yra: ' + names];
+        }
+
+        for (const { field, validation } of requiredFields) {
+            const [err, msg] = validation(clientData[field]);
+
+            if (err) {
+                return [err, msg];
+            }
+        }
+
+        return [false, 'Ok'];
+    }
+
+    /**
      * El. pasto adreso validavimas.
      * @param {string} text El. pasto adresas
-     * @returns 
+     * @returns {[true, string] | [false, 'Ok']}
      */
     static email(text) {
         const minSize = 6;
@@ -26,7 +58,7 @@ export class IsValid {
     /**
      * Slaptazodzio validavimas.
      * @param {string} text Slaptazodis
-     * @returns 
+     * @returns {[true, string] | [false, 'Ok']}
      */
     static password(text) {
         const minSize = 12;
