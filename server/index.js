@@ -5,6 +5,7 @@ import { notFoundResponse } from './middleware/notFoundResponse.js';
 import { fatalServerErrorResponse } from './middleware/fatalServerErrorResponse.js';
 import { notFoundPage } from './lib/notFoundPage.js';
 import { registerPostAPI } from './api/registerAPI.js';
+import { loginPostAPI } from './api/loginAPI.js';
 
 const app = express();
 const port = 5114;
@@ -24,7 +25,7 @@ app.use(express.static('./public'));
 app.get('/', homePage);
 
 app.post('/api/register', registerPostAPI);
-// app.post('/api/login', loginPostAPI);
+app.post('/api/login', loginPostAPI);
 // app.get('/api/logout', logoutGetAPI);
 // app.get('/api/post', postGetAPI);
 // app.post('/api/post', postPostAPI);
