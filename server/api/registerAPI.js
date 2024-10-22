@@ -18,19 +18,20 @@ export async function registerPostAPI(req, res) {
     const { email, password } = req.body;
 
     try {
-        const sql = `SELECT * FROM users WHERE email = ?;`;
-        const selectResult = await connection.execute(sql, [email]);
+        const sql = `INSERT INTO users (email, password) VALUES (?, ?);`;
+        const insertResult = await connection.execute(sql, [email, password]);
 
-        if (selectResult[0].length > 0) {
-            return res.json({
-                status: 'error',
-                msg: 'Toks email jau panaudotas',
-            });
-        }
+        console.log(insertResult);
+
     } catch (error) {
+        const errCodes = {
+            ER_DUP_ENTRY: 'Toks email jau panaudotas',
+        };
+        const msg = errCodes[error.code] ?? 'Registracija nepavyko del serverio klaidos. Pabandykite veliau';
+
         return res.json({
             status: 'error',
-            msg: 'Registracija nepavyko del serverio klaidos. Pabandykite veliau',
+            msg,
         });
     }
 
