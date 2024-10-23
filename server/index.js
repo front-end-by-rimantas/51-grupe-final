@@ -5,7 +5,8 @@ import { notFoundResponse } from './middleware/notFoundResponse.js';
 import { fatalServerErrorResponse } from './middleware/fatalServerErrorResponse.js';
 import { notFoundPage } from './lib/notFoundPage.js';
 import { registerPostAPI } from './api/registerAPI.js';
-import { loginPostAPI } from './api/loginAPI.js';
+import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
+import { cookieParser } from './middleware/cookieParser.js';
 
 const app = express();
 const port = 5114;
@@ -18,14 +19,17 @@ app.use(express.urlencoded({
 }));
 app.use(cors({
     origin: 'http://localhost:5173',
+    credentials: true,
 }));
 
 app.use(express.static('./public'));
+app.use(cookieParser);
 
 app.get('/', homePage);
 
 app.post('/api/register', registerPostAPI);
 app.post('/api/login', loginPostAPI);
+app.get('/api/login', loginGetAPI);
 // app.get('/api/logout', logoutGetAPI);
 // app.get('/api/post', postGetAPI);
 // app.post('/api/post', postPostAPI);

@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 
 export function LoginForm() {
+    const { login } = useContext(GlobalContext);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
@@ -22,6 +25,7 @@ export function LoginForm() {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password }),
         })
             .then(res => res.json())
@@ -29,6 +33,7 @@ export function LoginForm() {
                 if (data.status === 'success') {
                     setAlertMessage(() => 'Prisijungimas sėkmingas.');
                     setAlertColor(() => 'alert-success');
+                    login();
                 } else if (data.status === 'error') {
                     setAlertMessage(() => data.msg);
                     setAlertColor(() => 'alert-danger');
