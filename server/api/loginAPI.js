@@ -71,7 +71,7 @@ export async function loginPostAPI(req, res) {
         'max-age=' + maxAge,
         'SameSite=Lax',
         // 'Secure',
-        // 'HttpOnly',
+        'HttpOnly',
     ];
 
     return res
@@ -80,9 +80,22 @@ export async function loginPostAPI(req, res) {
         .json({
             status: 'success',
             msg: 'Ok',
+            role: 'user',
         });
 }
 
 export async function loginGetAPI(req, res) {
-    console.log(req.cookie);
+    if (!req.cookie.loginToken) {
+        return res.json({
+            status: 'error',
+            isLoggedIn: false,
+            role: 'public',
+        });
+    }
+
+    return res.json({
+        status: 'success',
+        isLoggedIn: true,
+        role: 'user',
+    });
 }

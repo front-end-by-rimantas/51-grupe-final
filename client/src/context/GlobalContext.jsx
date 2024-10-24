@@ -21,21 +21,19 @@ export function ContextWrapper(props) {
             credentials: 'include',
         })
             .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setIsLoggedIn(() => false);
-                setRole(() => 'public');
-            })
+            .then(data => data.status === 'error' ? logout() : login(data.role))
             .catch(console.error);
     }, []);
 
 
-    function login() {
+    function login(role) {
         setIsLoggedIn(() => true);
+        setRole(() => role);
     }
 
     function logout() {
-        setIsLoggedIn(() => false);
+        setIsLoggedIn(() => initialContext.isLoggedIn);
+        setRole(() => initialContext.role);
     }
 
     const value = {

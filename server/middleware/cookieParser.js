@@ -1,10 +1,8 @@
 export function cookieParser(req, _res, next) {
-    // req.headers.cookie
+    const cookiesStrings = req.headers.cookie
+        .split(';')
+        .map(s => s.trim().split('=').map(d => d.trim()));
 
-    // req.cookie = {
-    //     loginToken: 'afr5sg412aaf5d',
-    //     aaaaa: 'aaaaaaaaaa',
-    // }
-
+    req.cookie = Object.fromEntries(cookiesStrings);
     next();
 }

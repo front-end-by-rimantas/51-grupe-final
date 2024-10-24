@@ -52,6 +52,8 @@ export class IsValid {
             return [true, `El. pastas turi buti ne ilgesnis nei ${maxSize} simboliu.`];
         }
 
+        // TODO: aprasyti daugiau taisykliu
+
         return [false, 'Ok'];
     }
 

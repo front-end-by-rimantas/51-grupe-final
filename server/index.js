@@ -7,6 +7,7 @@ import { notFoundPage } from './lib/notFoundPage.js';
 import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
 import { cookieParser } from './middleware/cookieParser.js';
+import { logoutGetAPI } from './api/logoutAPI.js';
 
 const app = express();
 const port = 5114;
@@ -30,7 +31,7 @@ app.get('/', homePage);
 app.post('/api/register', registerPostAPI);
 app.post('/api/login', loginPostAPI);
 app.get('/api/login', loginGetAPI);
-// app.get('/api/logout', logoutGetAPI);
+app.get('/api/logout', logoutGetAPI);
 // app.get('/api/post', postGetAPI);
 // app.post('/api/post', postPostAPI);
 // app.put('/api/post', postPutAPI);

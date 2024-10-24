@@ -5,7 +5,20 @@ import { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 
 export function Header() {
-    const { isLoggedIn, role } = useContext(GlobalContext);
+    const { isLoggedIn, role, logout } = useContext(GlobalContext);
+
+    function handleLogoutClick() {
+        fetch('http://localhost:5114/api/logout', {
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    logout();
+                }
+            })
+            .catch(console.error);
+    }
 
     return (
         <div className="container">
@@ -27,7 +40,7 @@ export function Header() {
 
                 {isLoggedIn && <div className="col-md-4 text-end">
                     <Link to='/profile' className="btn btn-outline-primary me-2">Profilis</Link>
-                    <Link to='/logout' className="btn btn-primary">Atsijungti</Link>
+                    <button onClick={handleLogoutClick} type='button' className="btn btn-primary">Atsijungti</button>
                 </div>}
 
                 {!isLoggedIn && <div className="col-md-4 text-end">
