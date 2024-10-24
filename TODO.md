@@ -1,5 +1,7 @@
 # Todo
 
+-   reikia "env.js" pasidaryti
+
 ## FRONTEND
 
 #### Ateiciai / ant klaustuko
@@ -15,6 +17,7 @@
 
 ### Client
 
+-   sutikimas su cookiais
 -   feed page:
     -   header
     -   soninis meniu
@@ -36,9 +39,6 @@
 
 ## BACKEND
 
--   register API (post)
--   login API (post)
--   logout API (get)
 -   zinutes CRUD API
 
 ## LATER
