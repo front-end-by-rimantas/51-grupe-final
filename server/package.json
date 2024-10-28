@@ -5,7 +5,8 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
-        "dev": "node --watch ./",
+        "dev": "node  --watch ./ --env=.env.development",
+        "prod": "node  --watch ./ --env=.env.production",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],

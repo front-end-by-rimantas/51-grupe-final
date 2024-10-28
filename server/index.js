@@ -1,5 +1,4 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { homePage } from './lib/homePage.js';
 import { notFoundResponse } from './middleware/notFoundResponse.js';
@@ -9,8 +8,6 @@ import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
 import { cookieParser } from './middleware/cookieParser.js';
 import { logoutGetAPI } from './api/logoutAPI.js';
-
-dotenv.config();
 
 const app = express();
 const port = 5114;
