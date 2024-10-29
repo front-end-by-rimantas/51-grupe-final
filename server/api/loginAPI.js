@@ -125,8 +125,15 @@ export async function loginGetAPI(req, res) {
     }
 
     // 4) ar turim loginToken savo duombazeje
+    let tokenObj = null;
+
     try {
-        const sql = 'SELECT * FROM tokens WHERE token = ?;';
+        const sql = `
+            SELECT token, email, registered_at, created_at
+            FROM tokens
+            INNER JOIN users
+                ON users.id = tokens.user_id
+            WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
 
         if (selectResult[0].length === 0) {
@@ -147,7 +154,7 @@ export async function loginGetAPI(req, res) {
             });
         }
 
-        const tokenObj = selectResult[0][0];
+        tokenObj = selectResult[0][0];
 
         if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
             const cookie = [
@@ -180,12 +187,11 @@ export async function loginGetAPI(req, res) {
     }
 
     // 5) ar loginToken vis dar galiojantis
-
     return res.status(200).json({
         status: 'success',
         isLoggedIn: true,
         role: 'user',
-        email: '',
-        registeredAt: '',
+        email: tokenObj.email,
+        registeredAt: tokenObj.registered_at,
     });
 }
