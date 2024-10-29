@@ -8,6 +8,8 @@ import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
 import { cookieParser } from './middleware/cookieParser.js';
 import { logoutGetAPI } from './api/logoutAPI.js';
+import { postPostAPI } from './api/postAPI.js';
+import { getUserData } from './middleware/getUserData.js';
 
 const app = express();
 const port = 5114;
@@ -25,17 +27,28 @@ app.use(cors({
 
 app.use(express.static('./public'));
 app.use(cookieParser);
+app.use(getUserData);
+
+app.use((req, res, next) => {
+    console.log(req.user);
+
+    next();
+});
 
 app.get('/', homePage);
 
+// NEIDOMU KAS TU
 app.post('/api/register', registerPostAPI);
 app.post('/api/login', loginPostAPI);
+
+// REIKIA ZINOTI KAS TU
 app.get('/api/login', loginGetAPI);
 app.get('/api/logout', logoutGetAPI);
+app.post('/api/post', postPostAPI);
 // app.get('/api/post', postGetAPI);
-// app.post('/api/post', postPostAPI);
 // app.put('/api/post', postPutAPI);
 // app.delete('/api/post', postDeleteAPI);
+
 
 app.get('*', notFoundPage);
 

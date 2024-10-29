@@ -1,3 +1,5 @@
+import { MESSAGE_MAX_SIZE, MESSAGE_MIN_SIZE } from "../env.js";
+
 export class IsValid {
     /**
      * 
@@ -76,6 +78,22 @@ export class IsValid {
 
         if (text.length > maxSize) {
             return [true, `Slaptazodis turi buti ne ilgesnis nei ${maxSize} simboliu.`];
+        }
+
+        return [false, 'Ok'];
+    }
+
+    static postMessage(text) {
+        if (typeof text !== 'string') {
+            return [true, 'Zinute turi buti teksto tipo'];
+        }
+
+        if (text.length < MESSAGE_MIN_SIZE) {
+            return [true, `Zinute turi buti ne maziau ${MESSAGE_MIN_SIZE} simboliu ilgio`];
+        }
+
+        if (text.length > MESSAGE_MAX_SIZE) {
+            return [true, `Zinute turi buti ne daugiau ${MESSAGE_MAX_SIZE} simboliu ilgio`];
         }
 
         return [false, 'Ok'];

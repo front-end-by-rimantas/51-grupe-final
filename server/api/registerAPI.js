@@ -39,7 +39,7 @@ export async function registerPostAPI(req, res) {
         });
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
         status: 'success',
         msg: 'Ok',
     });
