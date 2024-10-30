@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { GlobalContext } from "../context/GlobalContext";
+import { UserContext } from "../context/UserContext";
 
 export function UserProfile() {
-    const { role, email, registeredAt } = useContext(GlobalContext);
+    const { role, email, registeredAt } = useContext(UserContext);
 
     return (
         <main>

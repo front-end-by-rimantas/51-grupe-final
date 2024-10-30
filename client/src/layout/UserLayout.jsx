@@ -2,11 +2,11 @@ import { useContext } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Outlet } from 'react-router-dom';
-import { GlobalContext } from "../context/GlobalContext";
+import { UserContext } from "../context/UserContext";
 import { LoginForm } from "../components/LoginForm";
 
 export function UserLayout() {
-    const { isLoggedIn } = useContext(GlobalContext);
+    const { isLoggedIn } = useContext(UserContext);
 
     return (
         <>

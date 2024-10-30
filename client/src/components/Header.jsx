@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/react.svg';
 import { MenuLink } from './MenuLink';
 import { useContext } from 'react';
-import { GlobalContext } from '../context/GlobalContext';
+import { UserContext } from '../context/UserContext';
 
 export function Header() {
-    const { isLoggedIn, role, logout } = useContext(GlobalContext);
+    const { isLoggedIn, role, logout } = useContext(UserContext);
 
     function handleLogoutClick() {
         fetch('http://localhost:5114/api/logout', {

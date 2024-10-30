@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 
-export const initialContext = {
+export const initialUserContext = {
     role: 'public',
     isLoggedIn: false,
     email: '',
@@ -11,13 +11,13 @@ export const initialContext = {
     logout: () => { },
 };
 
-export const GlobalContext = createContext(initialContext);
+export const UserContext = createContext(initialUserContext);
 
-export function ContextWrapper(props) {
-    const [role, setRole] = useState(initialContext.role);
-    const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
-    const [email, setEmail] = useState(initialContext.email);
-    const [registeredAt, setRegisteredAt] = useState(initialContext.registeredAt);
+export function UserContextWrapper(props) {
+    const [role, setRole] = useState(initialUserContext.role);
+    const [isLoggedIn, setIsLoggedIn] = useState(initialUserContext.isLoggedIn);
+    const [email, setEmail] = useState(initialUserContext.email);
+    const [registeredAt, setRegisteredAt] = useState(initialUserContext.registeredAt);
 
     useEffect(() => {
         fetch('http://localhost:5114/api/login', {
@@ -40,10 +40,10 @@ export function ContextWrapper(props) {
     }
 
     function logout() {
-        setIsLoggedIn(() => initialContext.isLoggedIn);
-        setRole(() => initialContext.role);
-        setEmail(() => initialContext.email);
-        setRegisteredAt(() => initialContext.registeredAt);
+        setIsLoggedIn(() => initialUserContext.isLoggedIn);
+        setRole(() => initialUserContext.role);
+        setEmail(() => initialUserContext.email);
+        setRegisteredAt(() => initialUserContext.registeredAt);
     }
 
     const value = {
@@ -56,8 +56,8 @@ export function ContextWrapper(props) {
     };
 
     return (
-        <GlobalContext.Provider value={value}>
+        <UserContext.Provider value={value}>
             {props.children}
-        </GlobalContext.Provider>
+        </UserContext.Provider>
     );
 }
