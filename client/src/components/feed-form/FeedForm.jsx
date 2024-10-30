@@ -14,7 +14,7 @@ export function FeedForm() {
             return;
         }
 
-        fetch('http://localhost:5114', {
+        fetch('http://localhost:5114/api/post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

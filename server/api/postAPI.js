@@ -2,8 +2,6 @@ import { connection } from '../db.js';
 import { IsValid } from '../lib/IsValid.js';
 
 export async function postPostAPI(req, res) {
-    // 1) pagal cookie susirasti vartotojo ID
-
     const requiredFields = [
         { field: 'text', validation: IsValid.postMessage },
     ];
@@ -16,7 +14,24 @@ export async function postPostAPI(req, res) {
         });
     }
 
-    // 4) irasyti post'a i DB
+    const { text } = req.body;
+
+    try {
+        const sql = 'INSERT INTO posts (text, user_id) VALUES (?, ?);';
+        const insertResult = await connection.execute(sql, [text, req.user.id]);
+
+        if (insertResult[0].affectedRows !== 1) {
+            return res.status(500).json({
+                status: 'error',
+                msg: 'Serverio klaida. Nepavyko irasyti zinutes. Pabandykite veliau',
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            status: 'error',
+            msg: 'Serverio klaida. Nepavyko irasyti zinutes. Pabandykite veliau',
+        });
+    }
 
     return res
         .status(201)
