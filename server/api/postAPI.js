@@ -42,9 +42,16 @@ export async function postPostAPI(req, res) {
 }
 
 export async function postGetAPI(req, res) {
+    let sql = 'SELECT * FROM posts ORDER BY id DESC;';
+    let sqlParams = [];
+
+    if (req.params.id) {
+        sql = 'SELECT * FROM posts WHERE id > ? ORDER BY id DESC;';
+        sqlParams = [req.params.id];
+    }
+
     try {
-        const sql = 'SELECT * FROM posts ORDER BY id DESC;';
-        const selectResult = await connection.execute(sql, []);
+        const selectResult = await connection.execute(sql, sqlParams);
 
         return res
             .status(200)

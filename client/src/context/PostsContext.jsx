@@ -24,33 +24,52 @@ export const PostsContext = createContext(initialPostsContext);
 export function PostsContextWrapper(props) {
     const { isLoggedIn } = useContext(UserContext);
     const [posts, setPosts] = useState(initialPostsContext.posts);
-    const newestPostId = posts.at(0)?.id;
-    const oldestPostId = posts.at(-1)?.id;
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isLoggedIn === true) {
             loadInitialPosts();
-        } else {
+        }
+
+        if (isLoggedIn === false) {
             setPosts(() => []);
         }
     }, [isLoggedIn]);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            if (isLoggedIn) {
-                loadNewPosts();
-            }
-        }, 1000);
+    // useEffect(() => {
+    //     if (isLoggedIn !== true) {
+    //         return;
+    //     }
 
-        return () => clearInterval(timer);
-    }, [isLoggedIn]);
+    //     const id = setInterval(() => {
+    //         console.log('kartojasi...');
+    //         loadNewPosts();
+    //     }, 1000);
+
+    //     loadNewPosts();
+
+    //     return () => clearInterval(id);
+    // }, [isLoggedIn]);
 
     function loadInitialPosts() {
         loadOlderPosts();
     }
 
     function loadNewPosts() {
-        console.log('GET: new posts....');
+        if (!isLoggedIn) {
+            return;
+        }
+
+        const newestPostId = posts.at(0)?.id;
+
+        fetch('http://localhost:5114/api/post/new/' + newestPostId, {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                setPosts(pre => [...data.posts, ...pre]);
+            })
+            .catch(console.error);
     }
 
     function loadOlderPosts(lastPostId) {
@@ -62,7 +81,7 @@ export function PostsContextWrapper(props) {
             .then(data => {
                 setPosts(pre => [...pre, ...data.posts]);
             })
-            .catch(console.error)
+            .catch(console.error);
     }
 
     function addMyPost() {
