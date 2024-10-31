@@ -40,3 +40,25 @@ export async function postPostAPI(req, res) {
             msg: 'Ok',
         });
 }
+
+export async function postGetAPI(req, res) {
+    try {
+        const sql = 'SELECT * FROM posts ORDER BY id DESC;';
+        const selectResult = await connection.execute(sql, []);
+
+        return res
+            .status(200)
+            .json({
+                status: 'success',
+                msg: 'Ok',
+                posts: selectResult[0],
+            });
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            status: 'error',
+            msg: 'Serverio klaida. Nepavyko gauti zinuciu. Pabandykite veliau',
+        });
+    }
+}

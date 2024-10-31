@@ -8,7 +8,7 @@ import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
 import { cookieParser } from './middleware/cookieParser.js';
 import { logoutGetAPI } from './api/logoutAPI.js';
-import { postPostAPI } from './api/postAPI.js';
+import { postGetAPI, postPostAPI } from './api/postAPI.js';
 import { getUserData } from './middleware/getUserData.js';
 import { authorizedAccessOnly } from './middleware/authorizedAccessOnly.js';
 import { notLoggedInAccessOnly } from './middleware/notLoggedInAccessOnly.js';
@@ -41,7 +41,7 @@ app.post('/api/login', notLoggedInAccessOnly, loginPostAPI);
 app.get('/api/login', authorizedAccessOnly, loginGetAPI);
 app.get('/api/logout', authorizedAccessOnly, logoutGetAPI);
 app.post('/api/post', authorizedAccessOnly, postPostAPI);
-// app.get('/api/post', authorizedAccessOnly, postGetAPI);
+app.get('/api/post', authorizedAccessOnly, postGetAPI);
 // app.put('/api/post', authorizedAccessOnly, postPutAPI);
 // app.delete('/api/post', authorizedAccessOnly, postDeleteAPI);
 
