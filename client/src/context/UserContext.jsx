@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const initialUserContext = {
     role: 'public',
+    userId: 0,
     isLoggedIn: null,
     email: '',
     registeredAt: '',
@@ -15,6 +16,7 @@ export const UserContext = createContext(initialUserContext);
 
 export function UserContextWrapper(props) {
     const [role, setRole] = useState(initialUserContext.role);
+    const [userId, setUserId] = useState(initialUserContext.userId);
     const [isLoggedIn, setIsLoggedIn] = useState(initialUserContext.isLoggedIn);
     const [email, setEmail] = useState(initialUserContext.email);
     const [registeredAt, setRegisteredAt] = useState(initialUserContext.registeredAt);
@@ -27,13 +29,14 @@ export function UserContextWrapper(props) {
             .then(res => res.json())
             .then(data => data.status === 'error'
                 ? logout()
-                : login(data.role, data.email, data.registeredAt))
+                : login(data.role, data.id, data.email, data.registeredAt))
             .catch(console.error);
     }, []);
 
 
-    function login(role, email, registeredAt) {
+    function login(role, id, email, registeredAt) {
         setIsLoggedIn(() => true);
+        setUserId(() => id);
         setRole(() => role);
         setEmail(() => email);
         setRegisteredAt(() => registeredAt);
@@ -41,6 +44,7 @@ export function UserContextWrapper(props) {
 
     function logout() {
         setIsLoggedIn(() => false);
+        setUserId(() => initialUserContext.userId);
         setRole(() => initialUserContext.role);
         setEmail(() => initialUserContext.email);
         setRegisteredAt(() => initialUserContext.registeredAt);
@@ -48,6 +52,7 @@ export function UserContextWrapper(props) {
 
     const value = {
         role,
+        userId,
         isLoggedIn,
         email,
         registeredAt,
