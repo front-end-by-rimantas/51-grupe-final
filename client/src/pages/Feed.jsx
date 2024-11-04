@@ -4,7 +4,7 @@ import { PostsContext } from "../context/PostsContext";
 import { Post } from "../components/posts/Post";
 
 export function Feed() {
-    const { posts } = useContext(PostsContext);
+    const { posts, loadOlderPosts } = useContext(PostsContext);
     const empty = <div className="alert alert-warning">Šiuo metu nėra jokio turinio. Būk pirmas ir parašyk tokią žinutę!</div>;
 
     return (
@@ -21,6 +21,9 @@ export function Feed() {
                                 : posts.map(post => <Post key={post.id} post={post} />)
                         }
                     </div>
+                </div>
+                <div className="row align-items-center g-lg-5 py-5">
+                    <button className="btn btn-primary" onClick={loadOlderPosts} type="button">Load more...</button>
                 </div>
             </div>
         </main>

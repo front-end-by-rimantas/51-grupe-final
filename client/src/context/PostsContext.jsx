@@ -27,11 +27,7 @@ export function PostsContextWrapper(props) {
 
     useEffect(() => {
         if (isLoggedIn === true) {
-            async function load() {
-                const data = await loadInitialPosts();
-                setPosts(() => [...data]);
-            }
-            load();
+            loadInitialPosts();
         }
 
         if (isLoggedIn === false) {
@@ -47,23 +43,22 @@ export function PostsContextWrapper(props) {
         const id = setTimeout(async () => {
             const newPosts = await loadNewPosts();
             setPosts(pre => [...newPosts, ...pre]);
-        }, 1000);
+        }, 20000);
 
         return () => clearInterval(id);
     }, [isLoggedIn, posts]);
 
     async function loadInitialPosts() {
-        return fetch('http://localhost:5114/api/post/', {
+        return fetch('http://localhost:5114/api/post/initial', {
             method: 'GET',
             credentials: 'include',
         })
             .then(res => res.json())
             .then(data => {
-                return data.posts;
+                setPosts(() => [...data.posts]);
             })
             .catch(err => {
                 console.error(err);
-                return [];
             });
     }
 
@@ -93,13 +88,13 @@ export function PostsContextWrapper(props) {
 
     async function loadOlderPosts() {
         const lastPostId = posts.at(-1)?.id ?? 0;
-        return fetch('http://localhost:5114/api/post/older/' + lastPostId, {
+        return fetch('http://localhost:5114/api/post/old/' + lastPostId, {
             method: 'GET',
             credentials: 'include',
         })
             .then(res => res.json())
             .then(data => {
-                return data.posts;
+                setPosts(pre => [...pre, ...data.posts]);
             })
             .catch(err => {
                 console.error(err);

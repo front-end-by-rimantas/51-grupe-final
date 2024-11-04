@@ -42,12 +42,17 @@ export async function postPostAPI(req, res) {
 }
 
 export async function postGetAPI(req, res) {
-    let sql = 'SELECT * FROM posts ORDER BY id DESC;';
+    let sql = 'SELECT * FROM posts ORDER BY id DESC LIMIT 5;';
     let sqlParams = [];
 
-    if (req.params.id) {
-        sql = 'SELECT * FROM posts WHERE id > ? ORDER BY id DESC;';
-        sqlParams = [req.params.id];
+    if (req.params.newerId) {
+        sql = 'SELECT * FROM posts WHERE id > ? ORDER BY id DESC LIMIT 5;';
+        sqlParams = [req.params.newerId];
+    }
+
+    if (req.params.olderId) {
+        sql = 'SELECT * FROM posts WHERE id < ? ORDER BY id DESC LIMIT 5;';
+        sqlParams = [req.params.olderId];
     }
 
     try {
