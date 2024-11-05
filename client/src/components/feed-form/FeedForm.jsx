@@ -8,7 +8,7 @@ export function FeedForm() {
         e.preventDefault();
 
         const minSize = 1;
-        const maxSize = 420;
+        const maxSize = 1337;
 
         if (text.length < minSize || text.length > maxSize) {
             return;

@@ -68,7 +68,7 @@ export function PostsContextWrapper(props) {
             return;
         }
 
-        const newestPostId = posts.at(0)?.id ?? 0;
+        const newestPostId = posts.at(0)?.post_id ?? 0;
         return fetch('http://localhost:5114/api/post/new/' + newestPostId, {
             method: 'GET',
             credentials: 'include',
@@ -88,7 +88,7 @@ export function PostsContextWrapper(props) {
     }
 
     async function loadOlderPosts() {
-        const lastPostId = posts.at(-1)?.id ?? 0;
+        const lastPostId = posts.at(-1)?.post_id ?? 0;
         return fetch('http://localhost:5114/api/post/old/' + lastPostId, {
             method: 'GET',
             credentials: 'include',

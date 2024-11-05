@@ -13,7 +13,7 @@ export function Feed() {
                 <div className="row align-items-center g-lg-5">
                     <FeedForm />
                 </div>
-                <div className="row align-items-center g-lg-5 py-5">
+                <div className="row align-items-center g-lg-5 pt-5">
                     <div className="col-md-10 mx-auto col-lg-6 col-xl-5">
                         {
                             posts.length === 0

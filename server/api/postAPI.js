@@ -42,18 +42,28 @@ export async function postPostAPI(req, res) {
 }
 
 export async function postGetAPI(req, res) {
-    let sql = 'SELECT * FROM posts ORDER BY id DESC LIMIT 5;';
-    let sqlParams = [];
+    const sqlParams = [];
+    let sqlFilter = '';
 
     if (req.params.newerId) {
-        sql = 'SELECT * FROM posts WHERE id > ? ORDER BY id DESC LIMIT 5;';
-        sqlParams = [req.params.newerId];
+        sqlFilter = 'WHERE posts.id > ?';
+        sqlParams.push(req.params.newerId);
     }
 
     if (req.params.olderId) {
-        sql = 'SELECT * FROM posts WHERE id < ? ORDER BY id DESC LIMIT 5;';
-        sqlParams = [req.params.olderId];
+        sqlFilter = 'WHERE posts.id < ?';
+        sqlParams.push(req.params.olderId);
     }
+
+    const sql = `
+        SELECT posts.id as post_id, posts.text, posts.created_at, posts.likes_count,
+            users.id as user_id, users.email
+        FROM posts 
+        INNER JOIN users
+            ON posts.user_id = users.id
+        ${sqlFilter}
+        ORDER BY posts.id DESC 
+        LIMIT 5;`;
 
     try {
         const selectResult = await connection.execute(sql, sqlParams);

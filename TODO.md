@@ -1,7 +1,3 @@
-# Todo
-
--   reikia "env.js" pasidaryti
-
 ## FRONTEND
 
 #### Ateiciai / ant klaustuko
@@ -21,8 +17,6 @@
 -   feed page:
     -   header
     -   soninis meniu
-    -   feed
-    -   naujo post'o forma
 -   post'o puslapis
 
 ### Admin
@@ -39,7 +33,9 @@
 
 ## BACKEND
 
--   zinutes CRUD API
+-   zinutes CRUD API:
+    -   put
+    -   delete
 
 ## LATER
 
