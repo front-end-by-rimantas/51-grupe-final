@@ -118,14 +118,18 @@
   text-align: center;
 }
 .interactions > .action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   float: left;
   width: 50%;
 }
-.interactions > .action > * {
-  line-height: 50px;
-  font-size: 16px;
+.interactions > .action > img {
+  height: 20px;
 }
 .interactions > .action > span {
+  line-height: 50px;
+  font-size: 16px;
   margin-left: 10px;
 }
 .commentForm {
@@ -152,22 +156,25 @@
 .commentForm > .form > textarea {
   display: inline-block;
   width: 100%;
+  min-height: 40px;
   height: 40px;
+  max-height: 200px;
   padding: 10px;
   line-height: 20px;
-  resize: none;
+  resize: vertical;
   overflow: hidden;
   border-radius: 20px;
   outline: none;
 }
 .commentForm > .form > .icons {
   position: absolute;
-  bottom: 6px;
+  bottom: 8px;
   right: 10px;
 }
-.commentForm > .form > .icons > .fa {
+.commentForm > .form > .icons > img {
   float: left;
   padding: 5px;
+  height: 32px;
 }
 .post + .post {
   margin-top: 20px;

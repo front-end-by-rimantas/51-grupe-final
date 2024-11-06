@@ -37,7 +37,7 @@ export function LoginForm() {
                 if (data.status === 'success') {
                     setAlertMessage(() => 'Prisijungimas sėkmingas.');
                     setAlertColor(() => 'alert-success');
-                    login(data.role, data.id, data.email, data.registeredAt);
+                    login(data);
                     navigate('/feed');
                 } else if (data.status === 'error') {
                     setAlertMessage(() => data.msg);

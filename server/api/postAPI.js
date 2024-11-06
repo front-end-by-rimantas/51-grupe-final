@@ -57,7 +57,7 @@ export async function postGetAPI(req, res) {
 
     const sql = `
         SELECT posts.id as post_id, posts.text, posts.created_at, posts.likes_count,
-            users.id as user_id, users.email
+            users.id as user_id, users.username, users.profile_image
         FROM posts 
         INNER JOIN users
             ON posts.user_id = users.id

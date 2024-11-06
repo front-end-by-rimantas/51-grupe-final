@@ -3,6 +3,7 @@ import { connection } from '../db.js';
 
 export async function registerPostAPI(req, res) {
     const requiredFields = [
+        { field: 'username', validation: IsValid.username },
         { field: 'email', validation: IsValid.email },
         { field: 'password', validation: IsValid.password },
     ];
@@ -15,11 +16,11 @@ export async function registerPostAPI(req, res) {
         });
     }
 
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
-        const sql = `INSERT INTO users (email, password) VALUES (?, ?);`;
-        const insertResult = await connection.execute(sql, [email, password]);
+        const sql = `INSERT INTO users (username, email, password) VALUES (?, ?, ?);`;
+        const insertResult = await connection.execute(sql, [username, email, password]);
 
         if (insertResult[0].affectedRows !== 1) {
             return res.status(500).json({

@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export function RegistrationForm() {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertColor, setAlertColor] = useState('alert-info');
+
+    function handleUsernameChange(event) {
+        setUsername(event.target.value);
+    }
 
     function handleEmailChange(event) {
         setEmail(event.target.value);
@@ -34,7 +39,7 @@ export function RegistrationForm() {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, email, password }),
         })
             .then(res => res.json())
             .then(data => {
@@ -61,6 +66,10 @@ export function RegistrationForm() {
             {alertMessage && <div className={`alert ${alertColor}`} role="alert">
                 {alertMessage}
             </div>}
+            <div className="form-floating mb-3">
+                <input onChange={handleUsernameChange} value={username} type="text" className="form-control" id="username" placeholder="Chuck Norris" required />
+                <label htmlFor="username">Slapyvardis</label>
+            </div>
             <div className="form-floating mb-3">
                 <input onChange={handleEmailChange} value={email} type="email" className="form-control" id="email" placeholder="name@example.com" required />
                 <label htmlFor="email">El. paštas</label>
