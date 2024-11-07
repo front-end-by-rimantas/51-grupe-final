@@ -58,6 +58,10 @@ export function UserContextWrapper(props) {
         setRegisteredAt(() => initialUserContext.registeredAt);
     }
 
+    function updateProfileImage(newImage) {
+        setProfileImage(() => newImage);
+    }
+
     const value = {
         role,
         userId,
@@ -68,6 +72,7 @@ export function UserContextWrapper(props) {
         registeredAt,
         login,
         logout,
+        updateProfileImage,
     };
 
     return (

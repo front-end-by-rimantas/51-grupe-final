@@ -4,7 +4,8 @@ import { useContext, useState } from 'react';
 import style from './Post.module.css';
 import { UserContext } from '../../context/UserContext';
 import { formatTime } from '../../lib/formatTime';
-import thumbIcon from '../../assets/thumb.svg';
+import thumbUpIcon from '../../assets/thumb-up.svg';
+import thumbDownIcon from '../../assets/thumb-down.svg';
 import commentIcon from '../../assets/comment.svg';
 import smileIcon from '../../assets/smile.svg';
 import cameraIcon from '../../assets/camera.svg';
@@ -43,8 +44,13 @@ export function Post({ post }) {
             </div>
             <div className={style.interactions}>
                 <div className={style.action}>
-                    <img src={thumbIcon} alt="Patinka" />
+                    <img src={thumbUpIcon} alt="Patinka" />
                     <span>Patinka</span>
+                    {post.likes_count > 0 && <span>({post.likes_count})</span>}
+                </div>
+                <div className={style.action}>
+                    <img src={thumbDownIcon} alt="Nepatinka" />
+                    <span>Nepatinka</span>
                     {post.likes_count > 0 && <span>({post.likes_count})</span>}
                 </div>
                 <div className={style.action}>

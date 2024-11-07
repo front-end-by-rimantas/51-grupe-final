@@ -18,7 +18,7 @@ export function Feed() {
                         {
                             posts.length === 0
                                 ? empty
-                                : posts.map(post => <Post key={post.id} post={post} />)
+                                : posts.map(post => <Post key={post.post_id} post={post} />)
                         }
                     </div>
                 </div>

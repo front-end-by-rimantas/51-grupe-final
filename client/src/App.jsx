@@ -8,7 +8,7 @@ import { Login } from "./pages/Login";
 import { Feed } from "./pages/Feed";
 import { PublicLayout } from "./layout/PublicLayout";
 import { UserLayout } from "./layout/UserLayout";
-import { UserProfile } from "./pages/UserProfile";
+import { UserProfile } from "./pages/user-profile/UserProfile";
 import { PostsContextWrapper } from "./context/PostsContext";
 
 export function App() {

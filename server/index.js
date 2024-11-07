@@ -12,6 +12,7 @@ import { postGetAPI, postPostAPI } from './api/postAPI.js';
 import { getUserData } from './middleware/getUserData.js';
 import { authorizedAccessOnly } from './middleware/authorizedAccessOnly.js';
 import { notLoggedInAccessOnly } from './middleware/notLoggedInAccessOnly.js';
+import { uploadApiRouter } from './api/uploadAPI.js';
 
 const app = express();
 const port = 5114;
@@ -47,6 +48,8 @@ app.get('/api/post/new/:newerId', authorizedAccessOnly, postGetAPI);
 app.get('/api/post/old/:olderId', authorizedAccessOnly, postGetAPI);
 // app.put('/api/post', authorizedAccessOnly, postPutAPI);
 // app.delete('/api/post', authorizedAccessOnly, postDeleteAPI);
+
+app.use('/api/upload', authorizedAccessOnly, uploadApiRouter);
 
 app.get('*', notFoundPage);
 
