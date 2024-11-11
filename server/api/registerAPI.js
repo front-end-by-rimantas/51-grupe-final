@@ -1,5 +1,6 @@
 import { IsValid } from '../lib/IsValid.js';
 import { connection } from '../db.js';
+import { API_RESPONSE_STATUS } from '../lib/enum.js';
 
 export async function registerPostAPI(req, res) {
     const requiredFields = [
@@ -11,7 +12,7 @@ export async function registerPostAPI(req, res) {
     const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
     if (isErr) {
         return res.status(400).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: errMessage,
         });
     }
@@ -24,7 +25,7 @@ export async function registerPostAPI(req, res) {
 
         if (insertResult[0].affectedRows !== 1) {
             return res.status(500).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: 'Nepavyko sukurti paskyros',
             });
         }
@@ -35,13 +36,13 @@ export async function registerPostAPI(req, res) {
         const msg = errCodes[error.code] ?? 'Registracija nepavyko del serverio klaidos. Pabandykite veliau';
 
         return res.status(errCodes[error.code] ? 400 : 500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg,
         });
     }
 
     return res.status(201).json({
-        status: 'success',
+        status: API_RESPONSE_STATUS.SUCCESS,
         msg: 'Ok',
     });
 }

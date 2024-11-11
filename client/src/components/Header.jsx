@@ -39,6 +39,7 @@ export function Header() {
                 </ul>
 
                 {isLoggedIn && <div className="col-md-4 text-end">
+                    {role === 'admin' && <Link to='/admin' className="btn btn-outline-primary me-2">Admin</Link>}
                     <Link to='/profile' className="btn btn-outline-primary me-2">Profilis</Link>
                     <button onClick={handleLogoutClick} type='button' className="btn btn-primary">Atsijungti</button>
                 </div>}

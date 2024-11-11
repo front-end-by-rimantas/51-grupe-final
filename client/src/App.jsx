@@ -1,16 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserContextWrapper } from "./context/UserContext";
-import { Home } from "./pages/Home";
-import { NotFound } from "./pages/NotFound";
-import { TermsOfService } from "./pages/TermsOfService";
-import { Register } from "./pages/Register";
-import { Login } from "./pages/Login";
-import { Feed } from "./pages/Feed";
-import { PublicLayout } from "./layout/PublicLayout";
-import { UserLayout } from "./layout/UserLayout";
-import { UserProfile } from "./pages/user-profile/UserProfile";
 import { PostsContextWrapper } from "./context/PostsContext";
+
+// PUBLIC PAGES
+import { PublicLayout } from "./layout/PublicLayout";
+import { Home } from "./pages/public/Home";
+import { NotFound } from "./pages/public/NotFound";
+import { TermsOfService } from "./pages/public/TermsOfService";
+import { Register } from "./pages/public/Register";
+import { Login } from "./pages/public/Login";
+
+// USER PAGES
+import { UserLayout } from "./layout/UserLayout";
+import { Feed } from "./pages/user/Feed";
+import { UserProfile } from "./pages/user/user-profile/UserProfile";
+
+// ADMIN PAGES
 import { AdminLayout } from "./layout/AdminLayout";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
 
 export function App() {
   return (
@@ -34,7 +41,7 @@ export function App() {
             </Route>
 
             <Route Component={AdminLayout}>
-              <Route path='/admin' element={<Feed />}></Route>
+              <Route path='/admin' element={<AdminDashboard />}></Route>
             </Route>
 
             <Route Component={PublicLayout}>

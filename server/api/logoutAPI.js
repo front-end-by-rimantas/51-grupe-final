@@ -1,4 +1,5 @@
 import { connection } from '../db.js';
+import { API_RESPONSE_STATUS } from '../lib/enum.js';
 
 export async function logoutGetAPI(req, res) {
     const cookie = [
@@ -15,7 +16,7 @@ export async function logoutGetAPI(req, res) {
         .status(200)
         .set('Set-Cookie', cookie.join('; '))
         .json({
-            status: 'success',
+            status: API_RESPONSE_STATUS.SUCCESS,
             msg: 'Ok',
         });
 }

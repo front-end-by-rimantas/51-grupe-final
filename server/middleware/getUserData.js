@@ -1,10 +1,11 @@
 import { connection } from "../db.js";
 import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from "../env.js";
+import { API_RESPONSE_STATUS, ROLE } from "../lib/enum.js";
 
 export async function getUserData(req, res, next) {
     req.user = {
         isLoggedIn: false,
-        role: 'public',
+        role: ROLE.PUBLIC,
         email: '',
         id: -1,
         registeredAt: -1,
@@ -60,18 +61,18 @@ export async function getUserData(req, res, next) {
                 .status(200)
                 .set('Set-Cookie', cookie.join('; '))
                 .json({
-                    status: 'error',
+                    status: API_RESPONSE_STATUS.ERROR,
                     msg: 'LOL',
                     isLoggedIn: false,
-                    role: 'public',
+                    role: ROLE.PUBLIC,
                 });
         }
     } catch (error) {
         return res.status(500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: `Serverio klaida. Nepavyko atpazinti vartotojo sesijos`,
             isLoggedIn: false,
-            role: 'public',
+            role: ROLE.PUBLIC,
         });
     }
 

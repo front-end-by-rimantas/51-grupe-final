@@ -2,6 +2,7 @@ import { IsValid } from '../lib/IsValid.js';
 import { connection } from '../db.js';
 import { randomString } from '../lib/randomString.js';
 import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from '../env.js';
+import { API_RESPONSE_STATUS, ROLE } from '../lib/enum.js';
 
 export async function loginPostAPI(req, res) {
     const requiredFields = [
@@ -12,7 +13,7 @@ export async function loginPostAPI(req, res) {
     const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
     if (isErr) {
         return res.status(400).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: errMessage,
         });
     }
@@ -21,12 +22,17 @@ export async function loginPostAPI(req, res) {
     let user = null;
 
     try {
-        const sql = `SELECT * FROM users WHERE email = ? AND password = ?;`;
+        const sql = `
+            SELECT users.id as id, role, username, email, profile_image, registered_at
+            FROM users
+            INNER JOIN roles
+                ON roles.id = users.role_id
+            WHERE email = ? AND password = ?;`;
         const selectResult = await connection.execute(sql, [email, password]);
 
         if (selectResult[0].length !== 1) {
             return res.status(400).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: 'Prisijungti nepavyko, nes nesutampa email ir password pora.',
             });
         } else {
@@ -39,7 +45,7 @@ export async function loginPostAPI(req, res) {
         const msg = errCodes[error.code] ?? 'Registracija nepavyko del serverio klaidos. Pabandykite veliau';
 
         return res.status(errCodes[error.code] ? 400 : 500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg,
         });
     }
@@ -53,13 +59,13 @@ export async function loginPostAPI(req, res) {
 
         if (insertResult[0].affectedRows !== 1) {
             return res.status(500).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: 'Nepavyko prisijungti',
             });
         }
     } catch (error) {
         return res.status(500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: 'Nepavyko prisijungti',
         });
     }
@@ -80,10 +86,10 @@ export async function loginPostAPI(req, res) {
         .status(200)
         .set('Set-Cookie', cookie.join('; '))
         .json({
-            status: 'success',
+            status: API_RESPONSE_STATUS.SUCCESS,
             msg: 'Ok',
-            role: 'user',
             id: user.id,
+            role: user.role,
             username: user.username,
             email: user.email,
             profileImage: user.profile_image,
@@ -97,10 +103,10 @@ export async function loginGetAPI(req, res) {
     // 1) ar turim loginToken
     if (!loginToken) {
         return res.status(400).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: 'Error: truksta loginToken rakto',
             isLoggedIn: false,
-            role: 'public',
+            role: ROLE.PUBLIC,
         });
     }
 
@@ -108,10 +114,10 @@ export async function loginGetAPI(req, res) {
     if (typeof loginToken !== 'string'
         || loginToken.length !== COOKIE_SIZE) {
         return res.status(400).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: `Error: loginToken raktas turi buti string ir ${COOKIE_SIZE} ilgio`,
             isLoggedIn: false,
-            role: 'public',
+            role: ROLE.PUBLIC,
         });
     }
 
@@ -119,10 +125,10 @@ export async function loginGetAPI(req, res) {
     for (const s of loginToken) {
         if (!COOKIE_ALLOWED_SYMBOLS.includes(s)) {
             return res.status(400).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: `Error: loginToken turi neleistina simboli "${s}"`,
                 isLoggedIn: false,
-                role: 'public',
+                role: ROLE.PUBLIC,
             });
         }
     }
@@ -132,28 +138,30 @@ export async function loginGetAPI(req, res) {
 
     try {
         const sql = `
-            SELECT user_id, username, token, email, profile_image, registered_at, created_at
+            SELECT user_id, role, username, token, email, profile_image, registered_at, created_at
             FROM tokens
             INNER JOIN users
                 ON users.id = tokens.user_id
+            INNER JOIN roles
+                ON roles.id = users.role_id
             WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
 
         if (selectResult[0].length === 0) {
             return res.status(400).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: `Error: nepavyko atpazinti vartotojo sesijos`,
                 isLoggedIn: false,
-                role: 'public',
+                role: ROLE.PUBLIC,
             });
         }
 
         if (selectResult[0].length > 1) {
             return res.status(500).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: `Serverio klaida. Nepavyko atpazinti vartotojo sesijos`,
                 isLoggedIn: false,
-                role: 'public',
+                role: ROLE.PUBLIC,
             });
         }
 
@@ -174,26 +182,26 @@ export async function loginGetAPI(req, res) {
                 .status(200)
                 .set('Set-Cookie', cookie.join('; '))
                 .json({
-                    status: 'error',
+                    status: API_RESPONSE_STATUS.ERROR,
                     msg: 'LOL',
                     isLoggedIn: false,
-                    role: 'public',
+                    role: ROLE.PUBLIC,
                 });
         }
     } catch (error) {
         return res.status(500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: `Serverio klaida. Nepavyko atpazinti vartotojo sesijos`,
             isLoggedIn: false,
-            role: 'public',
+            role: ROLE.PUBLIC,
         });
     }
 
     // 5) ar loginToken vis dar galiojantis
     return res.status(200).json({
-        status: 'success',
+        status: API_RESPONSE_STATUS.SUCCESS,
         isLoggedIn: true,
-        role: 'user',
+        role: tokenObj.role,
         id: tokenObj.user_id,
         username: tokenObj.username,
         email: tokenObj.email,

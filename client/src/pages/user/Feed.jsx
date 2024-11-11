@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { FeedForm } from "../components/feed-form/FeedForm";
-import { PostsContext } from "../context/PostsContext";
-import { Post } from "../components/posts/Post";
+import { FeedForm } from "../../components/feed-form/FeedForm";
+import { PostsContext } from "../../context/PostsContext";
+import { Post } from "../../components/posts/Post";
 
 export function Feed() {
     const { posts, loadOlderPosts } = useContext(PostsContext);

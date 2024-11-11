@@ -1,4 +1,5 @@
 import { connection } from '../db.js';
+import { API_RESPONSE_STATUS } from '../lib/enum.js';
 import { IsValid } from '../lib/IsValid.js';
 
 export async function postPostAPI(req, res) {
@@ -9,7 +10,7 @@ export async function postPostAPI(req, res) {
     const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
     if (isErr) {
         return res.status(400).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: errMessage,
         });
     }
@@ -22,13 +23,13 @@ export async function postPostAPI(req, res) {
 
         if (insertResult[0].affectedRows !== 1) {
             return res.status(500).json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: 'Serverio klaida. Nepavyko irasyti zinutes. Pabandykite veliau',
             });
         }
     } catch (error) {
         return res.status(500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: 'Serverio klaida. Nepavyko irasyti zinutes. Pabandykite veliau',
         });
     }
@@ -36,7 +37,7 @@ export async function postPostAPI(req, res) {
     return res
         .status(201)
         .json({
-            status: 'success',
+            status: API_RESPONSE_STATUS.SUCCESS,
             msg: 'Ok',
         });
 }
@@ -71,7 +72,7 @@ export async function postGetAPI(req, res) {
         return res
             .status(200)
             .json({
-                status: 'success',
+                status: API_RESPONSE_STATUS.SUCCESS,
                 msg: 'Ok',
                 posts: selectResult[0],
             });
@@ -79,7 +80,7 @@ export async function postGetAPI(req, res) {
         console.log(error);
 
         return res.status(500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: 'Serverio klaida. Nepavyko gauti zinuciu. Pabandykite veliau',
         });
     }

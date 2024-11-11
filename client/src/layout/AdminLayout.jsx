@@ -3,7 +3,7 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Outlet } from 'react-router-dom';
 import { UserContext } from "../context/UserContext";
-import { NotFound } from "../pages/NotFound";
+import { NotFound } from "../pages/public/NotFound";
 
 export function AdminLayout() {
     const { isLoggedIn, role } = useContext(UserContext);

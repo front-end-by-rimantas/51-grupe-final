@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../../context/UserContext";
 import style from './UserProfile.module.css';
 
 export function UserProfile() {

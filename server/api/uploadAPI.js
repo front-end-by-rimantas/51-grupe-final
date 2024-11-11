@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { connection } from '../db.js';
+import { API_RESPONSE_STATUS } from '../lib/enum.js';
 
 export const uploadApiRouter = express.Router();
 
@@ -8,7 +9,7 @@ uploadApiRouter.post('/', (req, res) => {
     return res
         .status(404)
         .json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: 'Netikslus API adresas',
         });
 });
@@ -44,7 +45,7 @@ uploadApiRouter.post('/profile', uploadProfileImage.single('user_profile_image')
             return res
                 .status(500)
                 .json({
-                    status: 'error',
+                    status: API_RESPONSE_STATUS.ERROR,
                     msg: 'Nepavyko issaugoti norimos nuotraukos',
                 });
         }
@@ -52,7 +53,7 @@ uploadApiRouter.post('/profile', uploadProfileImage.single('user_profile_image')
         return res
             .status(500)
             .json({
-                status: 'error',
+                status: API_RESPONSE_STATUS.ERROR,
                 msg: 'Nepavyko issaugoti norimos nuotraukos',
             });
     }
@@ -60,7 +61,7 @@ uploadApiRouter.post('/profile', uploadProfileImage.single('user_profile_image')
     return res
         .status(201)
         .json({
-            status: 'success',
+            status: API_RESPONSE_STATUS.SUCCESS,
             msg: 'Failas ikeltas',
             path: filePath,
         });
