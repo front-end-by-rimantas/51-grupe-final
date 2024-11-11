@@ -10,6 +10,7 @@ import { PublicLayout } from "./layout/PublicLayout";
 import { UserLayout } from "./layout/UserLayout";
 import { UserProfile } from "./pages/user-profile/UserProfile";
 import { PostsContextWrapper } from "./context/PostsContext";
+import { AdminLayout } from "./layout/AdminLayout";
 
 export function App() {
   return (
@@ -32,10 +33,16 @@ export function App() {
               {/* <Route path='/payments' element={<UserProfile />}></Route> */}
             </Route>
 
-            <Route path='*' element={<NotFound />}></Route>
+            <Route Component={AdminLayout}>
+              <Route path='/admin' element={<Feed />}></Route>
+            </Route>
+
+            <Route Component={PublicLayout}>
+              <Route path='*' element={<NotFound />}></Route>
+            </Route>
           </Routes>
         </BrowserRouter>
       </PostsContextWrapper>
-    </UserContextWrapper>
+    </UserContextWrapper >
   )
 }

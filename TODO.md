@@ -2,7 +2,6 @@
 
 #### Ateiciai / ant klaustuko
 
--   profilis page
 -   about us
 -   legal:
     -   privacy
@@ -15,7 +14,6 @@
 
 -   sutikimas su cookiais
 -   feed page:
-    -   header
     -   soninis meniu
 -   post'o puslapis
 

@@ -24,7 +24,9 @@ export function FeedForm() {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                if (data.status === 'success') {
+                    setText(() => '');
+                }
             })
             .catch(console.error);
     }
