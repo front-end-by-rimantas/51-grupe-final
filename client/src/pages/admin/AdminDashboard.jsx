@@ -1,14 +1,18 @@
+import { PageTitle } from "../../components/admin/PageTitle";
+import { UserTable } from "../../components/admin/UserTable";
+
 export function AdminDashboard() {
+    const tableData = [
+        { id: 1, name: 'Jonas', age: 99 },
+        { id: 2, name: 'Maryte', age: 88 },
+        { id: 3, name: 'Petras', age: 77 },
+        { id: 4, name: 'Ona', age: 66 },
+    ];
+
     return (
-        <main>
-            <div className="container px-4">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <h1 className="display-4 fw-bold lh-1 text-body-emphasis mb-3">Admin Dashboard</h1>
-                        <p className="fs-4">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-                    </div>
-                </div>
-            </div>
-        </main>
+        <>
+            <PageTitle title="Dashboard" />
+            <UserTable data={tableData} />
+        </>
     );
 }

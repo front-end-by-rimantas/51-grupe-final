@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
 import logo from '../assets/react.svg';
 import { MenuLink } from './MenuLink';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 
-export function Header() {
+export function Header({ fullWidth }) {
     const { isLoggedIn, role, logout } = useContext(UserContext);
 
     function handleLogoutClick() {
@@ -21,7 +22,7 @@ export function Header() {
     }
 
     return (
-        <div className="container">
+        <div className={fullWidth === true ? "container-fluid" : "container"}>
             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <div className="col-md-2 mb-2 mb-md-0">
                     <Link to='/' className="d-inline-flex link-body-emphasis text-decoration-none">
@@ -39,7 +40,10 @@ export function Header() {
                 </ul>
 
                 {isLoggedIn && <div className="col-md-4 text-end">
-                    {role === 'admin' && <Link to='/admin' className="btn btn-outline-primary me-2">Admin</Link>}
+                    {
+                        role === 'admin'
+                        && <Link to='/admin' className="btn btn-outline-primary me-2">Admin</Link>
+                    }
                     <Link to='/profile' className="btn btn-outline-primary me-2">Profilis</Link>
                     <button onClick={handleLogoutClick} type='button' className="btn btn-primary">Atsijungti</button>
                 </div>}
