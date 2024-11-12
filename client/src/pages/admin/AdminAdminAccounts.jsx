@@ -1,13 +1,23 @@
+import { useEffect, useState } from "react";
 import { PageTitle } from "../../components/admin/PageTitle";
 import { UserTable } from "../../components/admin/UserTable";
 
 export function AdminAdminAccounts() {
-    const tableData = [
-        { id: 1, name: 'Jonas', age: 99 },
-        { id: 2, name: 'Maryte', age: 88 },
-        { id: 3, name: 'Petras', age: 77 },
-        { id: 4, name: 'Ona', age: 66 },
-    ];
+    const [tableData, setTableData] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5114/api/admin/accounts/admins', {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    setTableData(data.list);
+                }
+            })
+            .catch(console.error);
+    }, []);
 
     return (
         <>

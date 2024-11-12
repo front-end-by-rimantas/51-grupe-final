@@ -29,10 +29,12 @@ export async function getUserData(req, res, next) {
 
     try {
         const sql = `
-            SELECT user_id, token, email, registered_at, created_at
+            SELECT user_id, role, token, email, registered_at, created_at
             FROM tokens
             INNER JOIN users
                 ON users.id = tokens.user_id
+            INNER JOIN roles
+                ON roles.id = users.role_id
             WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
 
@@ -78,10 +80,11 @@ export async function getUserData(req, res, next) {
 
     req.user = {
         isLoggedIn: true,
-        role: 'user',
+        role: tokenObj.role,
         id: tokenObj.user_id,
         email: tokenObj.email,
         registeredAt: tokenObj.registered_at,
     };
+
     next();
 }

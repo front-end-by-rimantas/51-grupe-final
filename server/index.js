@@ -10,9 +10,10 @@ import { cookieParser } from './middleware/cookieParser.js';
 import { logoutGetAPI } from './api/logoutAPI.js';
 import { postGetAPI, postPostAPI } from './api/postAPI.js';
 import { getUserData } from './middleware/getUserData.js';
-import { authorizedAccessOnly } from './middleware/authorizedAccessOnly.js';
+import { adminsOnly, usersOnly } from './middleware/authorizedAccessOnly.js';
 import { notLoggedInAccessOnly } from './middleware/notLoggedInAccessOnly.js';
 import { uploadApiRouter } from './api/uploadAPI.js';
+import { adminApiRouter } from './router/adminRouter.js';
 
 const app = express();
 const port = 5114;
@@ -39,17 +40,18 @@ app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
 app.post('/api/login', notLoggedInAccessOnly, loginPostAPI);
 
 // REIKIA ZINOTI KAS TU
-app.get('/api/login', authorizedAccessOnly, loginGetAPI);
-app.get('/api/logout', authorizedAccessOnly, logoutGetAPI);
-app.post('/api/post', authorizedAccessOnly, postPostAPI);
-app.get('/api/post', authorizedAccessOnly, postGetAPI);
-app.get('/api/post/initial', authorizedAccessOnly, postGetAPI);
-app.get('/api/post/new/:newerId', authorizedAccessOnly, postGetAPI);
-app.get('/api/post/old/:olderId', authorizedAccessOnly, postGetAPI);
-// app.put('/api/post', authorizedAccessOnly, postPutAPI);
-// app.delete('/api/post', authorizedAccessOnly, postDeleteAPI);
+app.get('/api/login', usersOnly, loginGetAPI);
+app.get('/api/logout', usersOnly, logoutGetAPI);
+app.post('/api/post', usersOnly, postPostAPI);
+app.get('/api/post', usersOnly, postGetAPI);
+app.get('/api/post/initial', usersOnly, postGetAPI);
+app.get('/api/post/new/:newerId', usersOnly, postGetAPI);
+app.get('/api/post/old/:olderId', usersOnly, postGetAPI);
+// app.put('/api/post', usersOnly, postPutAPI);
+// app.delete('/api/post', usersOnly, postDeleteAPI);
 
-app.use('/api/upload', authorizedAccessOnly, uploadApiRouter);
+app.use('/api/admin', adminsOnly, adminApiRouter);
+app.use('/api/upload', adminsOnly, uploadApiRouter);
 
 app.get('*', notFoundPage);
 
