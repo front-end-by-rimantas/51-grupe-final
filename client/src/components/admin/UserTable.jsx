@@ -2,7 +2,7 @@
 export function UserTable({ data }) {
     return (
         <div className="table-responsive small">
-            <table className="table table-striped table-sm">
+            <table className="table table-striped table-md">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

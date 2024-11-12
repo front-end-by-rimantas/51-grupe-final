@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { UserContext } from "../context/UserContext";
 import { NotFound } from "../pages/public/NotFound";
 
@@ -32,76 +32,43 @@ export function AdminLayout() {
                             <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                                     <span>General</span>
-                                    <a className="link-secondary" href="#" aria-label="Add a new report">
-                                        {/* <svg className="bi"><use xlinkHref="#plus-circle"></use></svg> */}
-                                    </a>
                                 </h6>
                                 <ul className="nav flex-column">
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#house-fill"></use></svg> */}
-                                            Dashboard
-                                        </a>
+                                        <Link to="/admin" className="nav-link d-flex align-items-center gap-2 active" aria-current="page">Suvestinė</Link>
                                     </li>
                                 </ul>
 
                                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                                     <span>Vartotojai</span>
-                                    <a className="link-secondary" href="#" aria-label="Add a new report">
-                                        {/* <svg className="bi"><use xlinkHref="#plus-circle"></use></svg> */}
-                                    </a>
                                 </h6>
                                 <ul className="nav flex-column mb-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Visi vartotojai
-                                        </a>
+                                        <Link to="/admin/accounts" className="nav-link d-flex align-items-center gap-2">Visi vartotojai</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Administratoriai
-                                        </a>
+                                        <Link to="/admin/accounts/admin" className="nav-link d-flex align-items-center gap-2">Administratoriai</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Paprasti vartotojai
-                                        </a>
+                                        <Link to="/admin/accounts/users" className="nav-link d-flex align-items-center gap-2">Paprasti vartotojai</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Blokuotos paskyros
-                                        </a>
+                                        <Link to="/admin/accounts/blocked" className="nav-link d-flex align-items-center gap-2">Blokuotos paskyros</Link>
                                     </li>
                                 </ul>
 
                                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                                     <span>Žinutės</span>
-                                    <a className="link-secondary" href="#" aria-label="Add a new report">
-                                        {/* <svg className="bi"><use xlinkHref="#plus-circle"></use></svg> */}
-                                    </a>
                                 </h6>
                                 <ul className="nav flex-column mb-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Visos žinutės
-                                        </a>
+                                        <Link to="/admin/posts" className="nav-link d-flex align-items-center gap-2">Visos žinutės</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Viešos žinutės
-                                        </a>
+                                        <Link to="/admin/posts/active" className="nav-link d-flex align-items-center gap-2">Viešos žinutės</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#file-earmark-text"></use></svg> */}
-                                            Blokuotos žinutės
-                                        </a>
+                                        <Link to="/admin/posts/blocked" className="nav-link d-flex align-items-center gap-2">Blokuotos žinutės</Link>
                                     </li>
                                 </ul>
 
@@ -109,10 +76,7 @@ export function AdminLayout() {
 
                                 <ul className="nav flex-column mb-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link d-flex align-items-center gap-2" href="#">
-                                            {/* <svg className="bi"><use xlinkHref="#gear-wide-connected"></use></svg> */}
-                                            Nustatymai
-                                        </a>
+                                        <Link to="/admin/settings" className="nav-link d-flex align-items-center gap-2">Nustatymai</Link>
                                     </li>
                                 </ul>
                             </div>

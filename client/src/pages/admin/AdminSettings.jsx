@@ -1,9 +1,9 @@
 import { PageTitle } from "../../components/admin/PageTitle";
 
-export function AdminDashboard() {
+export function AdminSettings() {
     return (
         <>
-            <PageTitle title="Dashboard" />
+            <PageTitle title="Gandalizdžio nustatymai" />
         </>
     );
 }
