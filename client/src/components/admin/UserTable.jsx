@@ -2,28 +2,34 @@
 import { ROLE } from '../../lib/enums.js';
 import style from './Table.module.css';
 import defaultUserImage from '../../assets/userDefaultProfile.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function Select({ userId, currentRole }) {
     const [newRole, setNewRole] = useState(currentRole);
 
-    useEffect(() => {
+    function handleChange(e) {
+        setNewRole(e.target.value);
+
         fetch('http://localhost:5114/api/admin/change-account-role', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userId, newRole }),
+            credentials: 'include',
+            body: JSON.stringify({
+                userId: userId,
+                newRole: e.target.value
+            }),
         })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
             })
             .catch(console.error);
-    }, [newRole]);
+    }
 
     return (
-        <select name="role" value={newRole} onChange={e => setNewRole(e.target.value)}>
+        <select name="role" value={newRole} onChange={handleChange}>
             {Object
                 .values(ROLE)
                 .filter(role => role !== ROLE.PUBLIC)

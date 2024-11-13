@@ -1,4 +1,5 @@
 import { MESSAGE_MAX_SIZE, MESSAGE_MIN_SIZE } from "../env.js";
+import { ROLE } from "./enum.js";
 
 export class IsValid {
     /**
@@ -120,6 +121,30 @@ export class IsValid {
 
         if (text.length > MESSAGE_MAX_SIZE) {
             return [true, `Zinute turi buti ne daugiau ${MESSAGE_MAX_SIZE} simboliu ilgio`];
+        }
+
+        return [false, 'Ok'];
+    }
+
+    static id(number) {
+        if (typeof number !== 'number'
+            || !Number.isInteger(number)
+            || number < 1
+        ) {
+            return [true, 'ID turi buti teigiamas sveikasis skaiciaus'];
+        }
+
+        return [false, 'Ok'];
+    }
+
+    static role(role) {
+        if (typeof role !== 'string') {
+            return [true, 'Role turi buti teksto tipo'];
+        }
+
+        const allowedOptions = Object.values(ROLE).filter(role => role !== ROLE.PUBLIC);
+        if (!allowedOptions.includes(role)) {
+            return [true, 'Galimos pasirinkti roles yra: ' + allowedOptions.join(', ')];
         }
 
         return [false, 'Ok'];

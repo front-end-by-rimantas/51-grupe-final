@@ -1,5 +1,5 @@
 import express from 'express';
-import { accountsAdminsGetAPI, accountsBlockedGetAPI, accountsGetAPI, accountsUsersGetAPI } from '../api/admin/accountsAPI.js';
+import { accountsAdminsGetAPI, accountsBlockedGetAPI, accountsGetAPI, accountsUsersGetAPI, changeAccountRolePostAPI } from '../api/admin/accountsAPI.js';
 
 export const adminApiRouter = express.Router();
 
@@ -11,3 +11,5 @@ adminApiRouter.get('/accounts', accountsGetAPI);
 adminApiRouter.get('/accounts/admins', accountsAdminsGetAPI);
 adminApiRouter.get('/accounts/users', accountsUsersGetAPI);
 adminApiRouter.get('/accounts/blocked', accountsBlockedGetAPI);
+
+adminApiRouter.put('/change-account-role', changeAccountRolePostAPI);

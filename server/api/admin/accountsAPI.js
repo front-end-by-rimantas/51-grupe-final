@@ -1,5 +1,6 @@
 import { connection } from "../../db.js";
 import { API_RESPONSE_STATUS, ROLE } from "../../lib/enum.js";
+import { IsValid } from "../../lib/IsValid.js";
 
 export async function accountsGetAPI(req, res) {
     try {
@@ -84,6 +85,50 @@ export async function accountsBlockedGetAPI(req, res) {
         return res.json({
             status: API_RESPONSE_STATUS.ERROR,
             msg: 'ERROR',
+        });
+    }
+}
+
+export async function changeAccountRolePostAPI(req, res) {
+    const requiredFields = [
+        { field: 'userId', validation: IsValid.id },
+        { field: 'newRole', validation: IsValid.role },
+    ];
+
+    const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
+    if (isErr) {
+        return res.status(400).json({
+            status: API_RESPONSE_STATUS.ERROR,
+            msg: errMessage,
+        });
+    }
+
+    const { userId, newRole } = req.body;
+
+    try {
+        const sql = `
+            UPDATE users
+            SET role_id = (
+                SELECT id FROM roles WHERE role = ?
+            )
+            WHERE id = ?;`;
+        const [updateRes] = await connection.execute(sql, [newRole, userId]);
+
+        if (updateRes.affectedRows !== 1) {
+            return res.status(500).json({
+                status: API_RESPONSE_STATUS.ERROR,
+                msg: 'Kazkas keisto keiciant role...',
+            });
+        }
+
+        return res.status(200).json({
+            status: API_RESPONSE_STATUS.SUCCESS,
+            msg: 'Role pakeista sekmingai',
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: API_RESPONSE_STATUS.ERROR,
+            msg: 'Serverio klaida, bandant pakeisti role',
         });
     }
 }
