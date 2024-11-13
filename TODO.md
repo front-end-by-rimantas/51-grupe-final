@@ -1,12 +1,5 @@
 ## FRONTEND
 
-USER ACTIVITY:
-
-1 -> not activated
-2 -> active
-3 -> blocked
-4 -> deleted
-
 #### Ateiciai / ant klaustuko
 
 -   about us
