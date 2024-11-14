@@ -1,6 +1,7 @@
 import { IsValid } from '../lib/IsValid.js';
 import { connection } from '../db.js';
 import { API_RESPONSE_STATUS } from '../lib/enum.js';
+import { hash } from '../lib/hash.js';
 
 export async function registerPostAPI(req, res) {
     const requiredFields = [
@@ -20,8 +21,8 @@ export async function registerPostAPI(req, res) {
     const { username, email, password } = req.body;
 
     try {
-        const sql = `INSERT INTO users (username, email, password) VALUES (?, ?, ?);`;
-        const insertResult = await connection.execute(sql, [username, email, password]);
+        const sql = `INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?);`;
+        const insertResult = await connection.execute(sql, [username, email, hash(password)]);
 
         if (insertResult[0].affectedRows !== 1) {
             return res.status(500).json({

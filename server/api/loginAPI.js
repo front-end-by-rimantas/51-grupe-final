@@ -3,6 +3,7 @@ import { connection } from '../db.js';
 import { randomString } from '../lib/randomString.js';
 import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from '../env.js';
 import { API_RESPONSE_STATUS, ROLE } from '../lib/enum.js';
+import { hash } from '../lib/hash.js';
 
 export async function loginPostAPI(req, res) {
     const requiredFields = [
@@ -27,8 +28,8 @@ export async function loginPostAPI(req, res) {
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
-            WHERE email = ? AND password = ?;`;
-        const selectResult = await connection.execute(sql, [email, password]);
+            WHERE email = ? AND password_hash = ?;`;
+        const selectResult = await connection.execute(sql, [email, hash(password)]);
 
         if (selectResult[0].length !== 1) {
             return res.status(400).json({

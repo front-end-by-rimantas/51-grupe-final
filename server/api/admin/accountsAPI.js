@@ -132,3 +132,43 @@ export async function changeAccountRolePostAPI(req, res) {
         });
     }
 }
+
+export async function accountDeleteAPI(req, res) {
+    const userId = +req.params.userId;
+    const [err, msg] = IsValid.id(userId);
+
+    if (err) {
+        return res.status(400).json({
+            status: API_RESPONSE_STATUS.ERROR,
+            msg: msg,
+        });
+    }
+
+    try {
+        const sql = `
+            UPDATE users
+            SET email = CONCAT(
+                (SELECT email FROM users WHERE id = ?),
+                ?
+            )
+            WHERE id = ?;`;
+        const [updateRes] = await connection.execute(sql, [userId, `_${Date.now()}_deactivated`, userId]);
+
+        if (updateRes.affectedRows !== 1) {
+            return res.status(500).json({
+                status: API_RESPONSE_STATUS.ERROR,
+                msg: 'Kazkas keisto bandant istrinti paskyra',
+            });
+        }
+
+        return res.status(200).json({
+            status: API_RESPONSE_STATUS.SUCCESS,
+            msg: 'Paskyra istrinta sekmingai',
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: API_RESPONSE_STATUS.ERROR,
+            msg: 'Serverio klaida, bandant istrinti paskyra',
+        });
+    }
+}
