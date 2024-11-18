@@ -71,13 +71,11 @@ export async function loginPostAPI(req, res) {
         });
     }
 
-    /** Laikas sekundemis */
-    const maxAge = 15 * 60;
     const cookie = [
         'loginToken=' + token,
         'domain=localhost',
         'path=/',
-        'max-age=' + maxAge,
+        'max-age=' + COOKIE_MAX_AGE,
         'SameSite=Lax',
         // 'Secure',
         'HttpOnly',

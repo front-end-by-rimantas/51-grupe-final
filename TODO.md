@@ -16,11 +16,14 @@
 -   feed page:
     -   soninis meniu
 -   post'o puslapis
+-   user'io puslapis
+-   pakviesti kitus draugus prisijungti prie sito soc tinklo
+    -   automatiskai tarpusavyje tampa draugais
+    -   prie invite nuorodos rodomas ja pasinaudojusiu nauju vartotoju kiekis
 
 ### Admin
 
 -   dashboard
--   vartotoju sarasas
 -   post'u sarasas
 
 #### Ateiciai / ant klaustuko

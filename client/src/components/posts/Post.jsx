@@ -7,9 +7,9 @@ import { formatTime } from '../../lib/formatTime';
 import thumbUpIcon from '../../assets/thumb-up.svg';
 import thumbDownIcon from '../../assets/thumb-down.svg';
 import commentIcon from '../../assets/comment.svg';
-import smileIcon from '../../assets/smile.svg';
-import cameraIcon from '../../assets/camera.svg';
-import gifIcon from '../../assets/gif.svg';
+// import smileIcon from '../../assets/smile.svg';
+// import cameraIcon from '../../assets/camera.svg';
+// import gifIcon from '../../assets/gif.svg';
 import userDefaultProfile from '../../assets/userDefaultProfile.svg';
 
 export function Post({ post }) {
@@ -63,11 +63,11 @@ export function Post({ post }) {
                 <img src={profileImage || userDefaultProfile} alt="My photo" />
                 <div className={style.form}>
                     <textarea></textarea>
-                    <div className={style.icons}>
+                    {/* <div className={style.icons}>
                         <img src={smileIcon} alt="Emoji" />
                         <img src={cameraIcon} alt="Įkelti nuotrauką" />
                         <img src={gifIcon} alt="Įkelti judantį paveiksliuką" />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </article>
