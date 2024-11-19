@@ -55,6 +55,9 @@ export function AdminLayout() {
                                     <li className="nav-item">
                                         <Link to="/admin/accounts/blocked" className="nav-link d-flex align-items-center gap-2">Blokuotos paskyros</Link>
                                     </li>
+                                    <li className="nav-item">
+                                        <Link to="/admin/accounts/deleted" className="nav-link d-flex align-items-center gap-2">Ištrintos paskyros</Link>
+                                    </li>
                                 </ul>
 
                                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">

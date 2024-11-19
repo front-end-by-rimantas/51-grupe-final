@@ -11,17 +11,40 @@ import commentIcon from '../../assets/comment.svg';
 // import cameraIcon from '../../assets/camera.svg';
 // import gifIcon from '../../assets/gif.svg';
 import userDefaultProfile from '../../assets/userDefaultProfile.svg';
+import { API_RESPONSE_STATUS } from '../../../../server/lib/enum';
+import { PostsContext } from '../../context/PostsContext';
 
 export function Post({ post }) {
     const softCutLimit = 200;
     const hardCutLimit = softCutLimit + 50;
 
     const { userId, profileImage } = useContext(UserContext);
+    const { updateLikeCount } = useContext(PostsContext);
     const [postTextFullSize, setPostTextFullSize] = useState(post.text.length < hardCutLimit);
 
     const text = postTextFullSize
         ? post.text
         : post.text.slice(0, softCutLimit).trim() + '... ';
+
+    function handleLikeClick() {
+        fetch('http://localhost:5114/api/post-like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                postId: post.post_id,
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === API_RESPONSE_STATUS.SUCCESS) {
+                    updateLikeCount(post.post_id);
+                }
+            })
+            .catch(console.error);
+    }
 
     return (
         <article className={style.post} data-id={post.post_id}>
@@ -43,16 +66,16 @@ export function Post({ post }) {
                 </p>
             </div>
             <div className={style.interactions}>
-                <div className={style.action}>
+                <div onClick={handleLikeClick} className={`${style.action} ${post.do_i_like === 1 ? 'btn btn-primary' : ''}`}>
                     <img src={thumbUpIcon} alt="Patinka" />
                     <span>Patinka</span>
                     {post.likes_count > 0 && <span>({post.likes_count})</span>}
                 </div>
-                <div className={style.action}>
+                {/* <div className={style.action}>
                     <img src={thumbDownIcon} alt="Nepatinka" />
                     <span>Nepatinka</span>
-                    {post.likes_count > 0 && <span>({post.likes_count})</span>}
-                </div>
+                    {post.dislikes_count > 0 && <span>({post.dislikes_count})</span>}
+                </div> */}
                 <div className={style.action}>
                     <img src={commentIcon} alt="Komentarai" />
                     <span>Komentarai</span>

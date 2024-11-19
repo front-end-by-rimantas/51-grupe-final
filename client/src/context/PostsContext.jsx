@@ -10,7 +10,7 @@ export const initialPostsContext = {
     loadOlderPosts: () => { },
     addMyPost: () => { },
     removeMyPost: () => { },
-    // changePostReaction: () => { },
+    updateLikeCount: () => { },
     // addPostComment: () => { },
     // removePostComment: () => { },
     // loadInitialPostComments: () => { },
@@ -109,6 +109,20 @@ export function PostsContextWrapper(props) {
     function removeMyPost() {
     }
 
+    function updateLikeCount(postId) {
+        setPosts(pre => pre.map(post => {
+            if (post.post_id === postId) {
+                return {
+                    ...post,
+                    do_i_like: post.do_i_like === 0 ? 1 : 0,
+                    likes_count: post.do_i_like === 0 ? post.likes_count + 1 : post.likes_count - 1,
+                };
+            } else {
+                return post;
+            }
+        }))
+    }
+
     const value = {
         posts,
         loadInitialPosts,
@@ -116,6 +130,7 @@ export function PostsContextWrapper(props) {
         loadOlderPosts,
         addMyPost,
         removeMyPost,
+        updateLikeCount,
     };
 
     return (

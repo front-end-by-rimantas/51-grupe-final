@@ -28,6 +28,7 @@ import { AdminAllPosts } from "./pages/admin/AdminAllPosts";
 import { AdminActivePosts } from "./pages/admin/AdminActivePosts";
 import { AdminBlockedPosts } from "./pages/admin/AdminBlockedPosts";
 import { AdminSettings } from "./pages/admin/AdminSettings";
+import { AdminDeletedAccounts } from "./pages/admin/AdminDeletedAccounts";
 
 export function App() {
   return (
@@ -56,6 +57,7 @@ export function App() {
               <Route path='/admin/accounts/admin' element={<AdminAdminAccounts />}></Route>
               <Route path='/admin/accounts/users' element={<AdminUserAccounts />}></Route>
               <Route path='/admin/accounts/blocked' element={<AdminBlockedAccounts />}></Route>
+              <Route path='/admin/accounts/deleted' element={<AdminDeletedAccounts />}></Route>
               <Route path='/admin/posts' element={<AdminAllPosts />}></Route>
               <Route path='/admin/posts/active' element={<AdminActivePosts />}></Route>
               <Route path='/admin/posts/blocked' element={<AdminBlockedPosts />}></Route>

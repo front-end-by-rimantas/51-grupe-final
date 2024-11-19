@@ -43,7 +43,7 @@ export async function postPostAPI(req, res) {
 }
 
 export async function postGetAPI(req, res) {
-    const sqlParams = [];
+    const sqlParams = [req.user.id];
     let sqlFilter = '';
 
     if (req.params.newerId) {
@@ -57,8 +57,15 @@ export async function postGetAPI(req, res) {
     }
 
     const sql = `
-        SELECT posts.id as post_id, posts.text, posts.created_at, posts.likes_count,
-            users.id as user_id, users.username, users.profile_image
+        SELECT 
+            posts.id as post_id,
+            posts.text,
+            posts.created_at,
+            posts.likes_count,
+            users.id as user_id,
+            users.username,
+            users.profile_image,
+            (SELECT count(*) % 2 FROM post_likes WHERE post_id = posts.id AND user_id = ?) as do_i_like
         FROM posts 
         INNER JOIN users
             ON posts.user_id = users.id

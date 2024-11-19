@@ -30,7 +30,7 @@ export async function accountsAdminsGetAPI(req, res) {
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
-            WHERE role = ?;`;
+            WHERE role = ? AND email NOT LIKE "%_deactivated";`;
         const [selectRes] = await connection.execute(sql, [ROLE.ADMIN]);
 
         return res.json({
@@ -52,7 +52,7 @@ export async function accountsUsersGetAPI(req, res) {
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
-            WHERE role = ?;`;
+            WHERE role = ? AND email NOT LIKE "%_deactivated";`;
         const [selectRes] = await connection.execute(sql, [ROLE.USER]);
 
         return res.json({
@@ -74,7 +74,29 @@ export async function accountsBlockedGetAPI(req, res) {
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
-            WHERE users.status = 3;`;
+            WHERE users.status = 3 AND email NOT LIKE "%_deactivated";`;
+        const [selectRes] = await connection.execute(sql);
+
+        return res.json({
+            status: API_RESPONSE_STATUS.SUCCESS,
+            list: selectRes,
+        });
+    } catch (error) {
+        return res.json({
+            status: API_RESPONSE_STATUS.ERROR,
+            msg: 'ERROR',
+        });
+    }
+}
+
+export async function accountsDeletedGetAPI(req, res) {
+    try {
+        const sql = `
+            SELECT users.id as id, role, email, username, profile_image, registered_at, status
+            FROM users
+            INNER JOIN roles
+                ON roles.id = users.role_id
+            WHERE email LIKE "%_deactivated";`;
         const [selectRes] = await connection.execute(sql);
 
         return res.json({
@@ -145,14 +167,15 @@ export async function accountDeleteAPI(req, res) {
     }
 
     try {
+        const deactivation = `_${Date.now()}_deactivated`;
         const sql = `
             UPDATE users
-            SET email = CONCAT(
-                (SELECT email FROM users WHERE id = ?),
-                ?
-            )
+            SET
+                username = CONCAT((SELECT username FROM users WHERE id = ?), ?),
+                email = CONCAT((SELECT email FROM users WHERE id = ?), ?),
+                password_hash = ?
             WHERE id = ?;`;
-        const [updateRes] = await connection.execute(sql, [userId, `_${Date.now()}_deactivated`, userId]);
+        const [updateRes] = await connection.execute(sql, [userId, deactivation, userId, deactivation, '', userId]);
 
         if (updateRes.affectedRows !== 1) {
             return res.status(500).json({
@@ -166,6 +189,8 @@ export async function accountDeleteAPI(req, res) {
             msg: 'Paskyra istrinta sekmingai',
         });
     } catch (error) {
+        console.log(error);
+
         return res.status(500).json({
             status: API_RESPONSE_STATUS.ERROR,
             msg: 'Serverio klaida, bandant istrinti paskyra',
