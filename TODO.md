@@ -17,6 +17,8 @@
     -   soninis meniu
 -   post'o puslapis
 -   user'io puslapis
+-   draugai:
+    -   follow mygtukas prie posto
 -   pakviesti kitus draugus prisijungti prie sito soc tinklo
     -   automatiskai tarpusavyje tampa draugais
     -   prie invite nuorodos rodomas ja pasinaudojusiu nauju vartotoju kiekis

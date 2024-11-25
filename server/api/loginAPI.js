@@ -24,7 +24,7 @@ export async function loginPostAPI(req, res) {
 
     try {
         const sql = `
-            SELECT users.id as id, role, username, email, profile_image, registered_at
+            SELECT users.id as id, role, username, email, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
@@ -69,6 +69,13 @@ export async function loginPostAPI(req, res) {
             status: API_RESPONSE_STATUS.ERROR,
             msg: 'Nepavyko prisijungti',
         });
+    }
+
+    if (user.status === 1) {
+        try {
+            const sql = 'UPDATE users SET status = 2 WHERE id = ?;';
+            await connection.execute(sql, [user.id]);
+        } catch (error) { }
     }
 
     const cookie = [

@@ -14,7 +14,7 @@ import { adminsOnly, usersOnly } from './middleware/authorizedAccessOnly.js';
 import { notLoggedInAccessOnly } from './middleware/notLoggedInAccessOnly.js';
 import { uploadApiRouter } from './api/uploadAPI.js';
 import { adminApiRouter } from './router/adminRouter.js';
-import { postLikePostAPI } from './api/likeAPI.js';
+import { postReactionPostAPI } from './api/reactionAPI.js';
 
 const app = express();
 const port = 5114;
@@ -51,10 +51,11 @@ app.get('/api/post/old/:olderId', usersOnly, postGetAPI);
 // app.put('/api/post', usersOnly, postPutAPI);
 // app.delete('/api/post', usersOnly, postDeleteAPI);
 
-app.post('/api/post-like', usersOnly, postLikePostAPI);
+app.post('/api/post-reaction', usersOnly, postReactionPostAPI);
+
+app.use('/api/upload', usersOnly, uploadApiRouter);
 
 app.use('/api/admin', adminsOnly, adminApiRouter);
-app.use('/api/upload', adminsOnly, uploadApiRouter);
 
 app.get('*', notFoundPage);
 

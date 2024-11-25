@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 const uploadProfileImage = multer({
     storage: storage,
     limits: {
-        fileSize: 1000000,
+        fileSize: 3000000,
     },
 });
 

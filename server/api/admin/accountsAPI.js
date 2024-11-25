@@ -189,8 +189,6 @@ export async function accountDeleteAPI(req, res) {
             msg: 'Paskyra istrinta sekmingai',
         });
     } catch (error) {
-        console.log(error);
-
         return res.status(500).json({
             status: API_RESPONSE_STATUS.ERROR,
             msg: 'Serverio klaida, bandant istrinti paskyra',

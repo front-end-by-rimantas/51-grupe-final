@@ -6,7 +6,7 @@ LIKE: id, user_id, post_id, created_at
 # Kiek LIKE paspaudimu is viso?
 
 ```
-SELECT SUM(likes) as likes FROM ( SELECT COUNT(*) % 2 as likes FROM `post_likes` WHERE post_id = ? GROUP BY user_id ) dt;
+SELECT SUM(likes) as likes FROM ( SELECT COUNT(*) % 2 as likes FROM `post_reactions` WHERE post_id = ? GROUP BY user_id ) dt;
 ```
 
 # Kaip zinoti, ar as esu paLIKEines?

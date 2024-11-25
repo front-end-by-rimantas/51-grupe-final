@@ -7,6 +7,28 @@ import { API_RESPONSE_STATUS } from '../../lib/enums';
 
 export function UserTableRow({ userData }) {
     const [canDelete, setCanDelete] = useState(true);
+    let statusText = '';
+    let statusStyle = '';
+
+    switch (userData.status) {
+        case 1:
+            statusText = 'initial';
+            statusStyle = 'bg-warning';
+            break;
+        case 2:
+            statusText = 'active';
+            statusStyle = 'bg-success';
+            break;
+        case 3:
+            statusText = 'blocked';
+            statusStyle = 'bg-danger';
+            break;
+
+        default:
+            statusText = 'initial';
+            statusStyle = 'bg-info';
+            break;
+    }
 
     function handleDelete() {
         fetch('http://localhost:5114/api/admin/accounts/' + userData.id, {
@@ -35,7 +57,9 @@ export function UserTableRow({ userData }) {
                 <UserRoleSelect userId={userData.id} currentRole={userData.role} />
             </td>
             <td>{userData.registered_at}</td>
-            <td>{userData.status}</td>
+            <td>
+                <span className={`badge rounded-pill ${statusStyle}`}>{statusText}</span>
+            </td>
             <td>
                 {canDelete && <button onClick={handleDelete} className='btn btn-danger btn-sm' type='button'>Delete</button>}
             </td>

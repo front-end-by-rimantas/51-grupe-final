@@ -8,3 +8,10 @@ export const ROLE = {
     ADMIN: 'admin',
     USER: 'user',
 };
+
+export const REACTION_TYPE = {
+    NONE: 0,
+    LIKE: 1,
+    DISLIKE: 2,
+    LOVE: 3,
+};

@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
+import { REACTION_TYPE } from "../../../server/lib/enum";
 
 export const initialPostsContext = {
     posts: [],
@@ -109,13 +110,25 @@ export function PostsContextWrapper(props) {
     function removeMyPost() {
     }
 
-    function updateLikeCount(postId) {
+    function updateLikeCount(postId, reactionId) {
         setPosts(pre => pre.map(post => {
             if (post.post_id === postId) {
                 return {
                     ...post,
-                    do_i_like: post.do_i_like === 0 ? 1 : 0,
-                    likes_count: post.do_i_like === 0 ? post.likes_count + 1 : post.likes_count - 1,
+                    my_reaction_id:
+                        post.my_reaction_id === reactionId ? REACTION_TYPE.NONE : reactionId,
+                    likes_count:
+                        post.likes_count
+                        + (post.my_reaction_id === REACTION_TYPE.LIKE ? -1 : 0)
+                        + (reactionId === REACTION_TYPE.LIKE && post.my_reaction_id !== reactionId ? 1 : 0),
+                    dislike_count:
+                        post.dislike_count
+                        + (post.my_reaction_id === REACTION_TYPE.DISLIKE ? -1 : 0)
+                        + (reactionId === REACTION_TYPE.DISLIKE && post.my_reaction_id !== reactionId ? 1 : 0),
+                    love_count:
+                        post.love_count
+                        + (post.my_reaction_id === REACTION_TYPE.LOVE ? -1 : 0)
+                        + (reactionId === REACTION_TYPE.LOVE && post.my_reaction_id !== reactionId ? 1 : 0),
                 };
             } else {
                 return post;

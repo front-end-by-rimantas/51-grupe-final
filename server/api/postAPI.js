@@ -62,10 +62,18 @@ export async function postGetAPI(req, res) {
             posts.text,
             posts.created_at,
             posts.likes_count,
+            posts.dislike_count,
+            posts.love_count,
             users.id as user_id,
             users.username,
             users.profile_image,
-            (SELECT count(*) % 2 FROM post_likes WHERE post_id = posts.id AND user_id = ?) as do_i_like
+            (
+                SELECT reaction_type_id
+                FROM post_reactions
+                WHERE
+                    post_reactions.post_id = posts.id AND
+                    post_reactions.user_id = ?
+            ) as my_reaction_id
         FROM posts 
         INNER JOIN users
             ON posts.user_id = users.id
@@ -74,18 +82,16 @@ export async function postGetAPI(req, res) {
         LIMIT 5;`;
 
     try {
-        const selectResult = await connection.execute(sql, sqlParams);
+        const [selectResult] = await connection.execute(sql, sqlParams);
 
         return res
             .status(200)
             .json({
                 status: API_RESPONSE_STATUS.SUCCESS,
                 msg: 'Ok',
-                posts: selectResult[0],
+                posts: selectResult,
             });
     } catch (error) {
-        console.log(error);
-
         return res.status(500).json({
             status: API_RESPONSE_STATUS.ERROR,
             msg: 'Serverio klaida. Nepavyko gauti zinuciu. Pabandykite veliau',
