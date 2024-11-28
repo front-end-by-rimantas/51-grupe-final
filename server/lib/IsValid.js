@@ -168,15 +168,15 @@ export class IsValid {
 
     static postMessage(text) {
         if (typeof text !== 'string') {
-            return [true, 'Zinute turi buti teksto tipo'];
+            return [true, 'Zinute turi buti teksto tipo.'];
         }
 
         if (text.length < MESSAGE_MIN_SIZE) {
-            return [true, `Zinute turi buti ne maziau ${MESSAGE_MIN_SIZE} simboliu ilgio`];
+            return [true, `Zinute turi buti ne maziau ${MESSAGE_MIN_SIZE} simboliu ilgio.`];
         }
 
         if (text.length > MESSAGE_MAX_SIZE) {
-            return [true, `Zinute turi buti ne daugiau ${MESSAGE_MAX_SIZE} simboliu ilgio`];
+            return [true, `Zinute turi buti ne daugiau ${MESSAGE_MAX_SIZE} simboliu ilgio.`];
         }
 
         return [false, 'Ok'];
@@ -186,8 +186,9 @@ export class IsValid {
         if (typeof number !== 'number'
             || !Number.isInteger(number)
             || number < 1
+            || number > Number.MAX_SAFE_INTEGER
         ) {
-            return [true, 'ID turi buti teigiamas sveikasis skaiciaus'];
+            return [true, 'ID turi buti teigiamas sveikasis skaiciaus.'];
         }
 
         return [false, 'Ok'];
@@ -195,12 +196,12 @@ export class IsValid {
 
     static role(role) {
         if (typeof role !== 'string') {
-            return [true, 'Role turi buti teksto tipo'];
+            return [true, 'Role turi buti teksto tipo.'];
         }
 
         const allowedOptions = Object.values(ROLE).filter(role => role !== ROLE.PUBLIC);
         if (!allowedOptions.includes(role)) {
-            return [true, 'Galimos pasirinkti roles yra: ' + allowedOptions.join(', ')];
+            return [true, 'Galimos pasirinkti roles yra: ' + allowedOptions.join(', ') + '.'];
         }
 
         return [false, 'Ok'];
