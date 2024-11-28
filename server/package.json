@@ -7,20 +7,23 @@
     "scripts": {
         "dev": "node  --watch ./ --env=.env.development",
         "prod": "node  --watch ./ --env=.env.production",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config ./jest.config.js --passWithNoTests",
+        "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config ./jest.config.js --watchAll --passWithNoTests"
     },
     "keywords": [],
     "author": "Rimantas (https://github.com/belauzas)",
     "license": "MIT",
     "dependencies": {
+        "@types/jest": "^29.5.14",
         "body-parser": "^1.20.3",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
         "dotenv": "^16.4.5",
         "express": "^4.21.1",
         "helmet": "^8.0.0",
-        "mysql2": "^3.11.3",
-        "multer": "^1.4.5-lts.1"
+        "jest": "^29.7.0",
+        "multer": "^1.4.5-lts.1",
+        "mysql2": "^3.11.3"
     },
     "devDependencies": {
         "@types/cookie-parser": "^1.4.7",
@@ -28,5 +31,8 @@
         "@types/express": "^5.0.0",
         "@types/node": "^22.7.5",
         "typescript": "^5.6.3"
+    },
+    "jest": {
+        "transform": {}
     }
 }
