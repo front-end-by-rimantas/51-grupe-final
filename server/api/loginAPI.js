@@ -24,7 +24,7 @@ export async function loginPostAPI(req, res) {
 
     try {
         const sql = `
-            SELECT users.id as id, role, username, email, profile_image, registered_at, status
+            SELECT users.id as id, role, username, email, profile_image, registered_at, users.status_id
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
@@ -40,19 +40,13 @@ export async function loginPostAPI(req, res) {
             user = selectResult[0][0];
         }
     } catch (error) {
-        const errCodes = {
-            ER_DUP_ENTRY: 'Toks email jau panaudotas',
-        };
-        const msg = errCodes[error.code] ?? 'Registracija nepavyko del serverio klaidos. Pabandykite veliau';
-
-        return res.status(errCodes[error.code] ? 400 : 500).json({
+        return res.status(500).json({
             status: API_RESPONSE_STATUS.ERROR,
-            msg,
+            msg: 'Prisijungti nepavyko dėl serverio klaidos. Pabandykite vėliau',
         });
     }
 
-    // TODO: paimti is env.js
-    const token = randomString(+process.env.COOKIE_SIZE);
+    const token = randomString(COOKIE_SIZE);
 
     try {
         const sql = 'INSERT INTO tokens (user_id, token) VALUES (?, ?);';
@@ -61,19 +55,19 @@ export async function loginPostAPI(req, res) {
         if (insertResult[0].affectedRows !== 1) {
             return res.status(500).json({
                 status: API_RESPONSE_STATUS.ERROR,
-                msg: 'Nepavyko prisijungti',
+                msg: 'Prisijungti nepavyko dėl serverio klaidos. Pabandykite vėliau',
             });
         }
     } catch (error) {
         return res.status(500).json({
             status: API_RESPONSE_STATUS.ERROR,
-            msg: 'Nepavyko prisijungti',
+            msg: 'Prisijungti nepavyko dėl serverio klaidos. Pabandykite vėliau',
         });
     }
 
-    if (user.status === 1) {
+    if (user.status_id === 1) {
         try {
-            const sql = 'UPDATE users SET status = 2 WHERE id = ?;';
+            const sql = 'UPDATE users SET status_id = 2 WHERE id = ?;';
             await connection.execute(sql, [user.id]);
         } catch (error) { }
     }

@@ -131,6 +131,8 @@ async function updatePostReaction(postId, reactionTypeId, preReactionId, preReac
             return false;
         }
     } catch (error) {
+        console.log(error);
+
         return false;
     }
 
